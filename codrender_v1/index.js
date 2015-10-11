@@ -1,8 +1,8 @@
 'use strict';
 
 var Glue = require('glue');
-var glueManifest = require('./config/glue-manifest');
-var glueOptions = require('./config/glue-options');
+var glueManifest = require('./config/manifest');
+var glueOptions = require('./config/options');
 
 Glue.compose(glueManifest, glueOptions, function (err, server) {
     if (err) {

@@ -21,8 +21,8 @@ module.exports = {
                     }
                 }
             ]
-        },
-        './routes': {}
+        }
+//        './routes': {}
     }
 };
 

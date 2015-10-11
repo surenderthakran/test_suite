@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "glue": "^2.3.0",
+    "good": "^6.4.0",
+    "good-console": "^5.1.0",
+    "hapi": "^10.4.1"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
