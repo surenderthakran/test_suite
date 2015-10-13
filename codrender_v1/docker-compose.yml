@@ -1,0 +1,7 @@
+web:
+    build: .
+    command: node index.js
+    ports:
+        - "80:80"
+    volumes:
+        - .:/src

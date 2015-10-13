@@ -3,7 +3,7 @@
 # Dockerfile for codrender.com version-1
 #
 ###
-FROM surenderthakran/nodejs
+FROM surenderthakran/nodejs:v4.1.2
 
 ## Copy Source Code
 ADD . /src
@@ -13,4 +13,5 @@ WORKDIR /src
 
 RUN npm install
 
-CMD ["node src/index.js"]
+#CMD ["node /src/index.js"]
+#ENTRYPOINT ["node", "index.js"]
