@@ -1,7 +1,6 @@
 {
   "name": "codrender_v1",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "dependencies": {
     "glue": "^2.3.0",
@@ -14,5 +13,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Surender Thakran",
-  "license": "ISC"
+  "license": "ISC",
+  "description": ""
 }
