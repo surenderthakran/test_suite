@@ -1,5 +1,26 @@
 'use strict';
 
+var Hapi = require("hapi");
+
+var server = new Hapi.Server();
+server.connection({
+        host: "127.0.0.1",
+        port: 32770
+});
+
+server.route({
+        method: "GET",
+        path: "/",
+        handler: function(request, reply){
+                reply("Finally made it!!");
+        }
+});
+
+server.start(function() {
+        console.log("Server running at: " + server.info.uri);
+});
+
+/*
 var Glue = require('glue');
 var glueManifest = require('./config/manifest');
 var glueOptions = require('./config/options');
@@ -13,3 +34,4 @@ Glue.compose(glueManifest, glueOptions, function (err, server) {
         console.log('Server running at: ' + server.info.uri);
     });
 });
+*/
