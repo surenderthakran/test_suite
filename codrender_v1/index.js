@@ -4,8 +4,8 @@ var Hapi = require("hapi");
 
 var server = new Hapi.Server();
 server.connection({
-        host: "127.0.0.1",
-        port: 32770
+        host: "0.0.0.0",
+        port: 80
 });
 
 server.route({

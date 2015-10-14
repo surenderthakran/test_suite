@@ -13,5 +13,7 @@ WORKDIR /src
 
 RUN npm install
 
-#CMD ["node /src/index.js"]
+EXPOSE 80
+
+CMD ["node", "/src/index.js"]
 #ENTRYPOINT ["node", "index.js"]
