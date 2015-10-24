@@ -1,13 +1,17 @@
-# docker run -it -d -v ./dummy:/src <container name>
+# docker run -it -d -v ./dummy:/src -p 3000:3000 <container name>
 
 FROM node:latest
 
-RUN mkdir /src
+RUN mkdir /node_modules
 
-WORKDIR /src
+RUN mkdir /dummy
 
-ADD . /src
+WORKDIR /dummy
+
+ADD . /dummy
 
 RUN npm install
+
+RUN npm root
 
 CMD ["node", "app.js"]

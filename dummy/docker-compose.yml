@@ -1,0 +1,7 @@
+app:
+  build: .
+  command: make run
+  volumes:
+    - "./:/dummy/"
+  ports:
+    - "3000:3000"
