@@ -1,6 +1,7 @@
 install:
+	@npm install -g nodemon
 	@npm install
 
 run:
-	@ln -s /node_modules/ /dummy/node_modules
-	@node app.js
+	@ln -s /src/node_modules/ /src/dummy/node_modules
+	@nodemon dummy/app.js

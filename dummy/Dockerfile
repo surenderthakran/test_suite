@@ -2,16 +2,20 @@
 
 FROM surenderthakran/nodejs:v4
 
-RUN mkdir /node_modules
+RUN mkdir /src
 
-RUN mkdir /dummy
+RUN mkdir /src/node_modules
 
-ADD ./package.json /package.json
+RUN mkdir /src/dummy
 
-RUN npm install
+WORKDIR /src
 
-RUN npm root
+ADD ./package.json /src/package.json
 
-WORKDIR /dummy
+ADD ./Makefile /src/Makefile
+
+RUN echo `ls`
+
+RUN make install
 
 #CMD ["node", "app.js"]
