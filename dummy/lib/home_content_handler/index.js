@@ -1,6 +1,12 @@
 "use strict";
 
-module.exports = {
+module.exports = function(req, res) {
+    console.log("--- inside home_content_handler");
+    console.log(req.body);
+  	res.json(homeContent);
+};
+
+var homeContent = {
     cities: [
         {
             ct_id: "ct123",

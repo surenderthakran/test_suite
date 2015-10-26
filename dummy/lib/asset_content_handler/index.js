@@ -1,6 +1,12 @@
 "use strict";
 
-module.exports = {
+module.exports = function(req, res) {
+    console.log("--- inside asset_content_handler");
+    console.log(req.body);
+  	res.json(assetContent);
+}
+
+var assetContent = {
     ast_id: "ast123",
     ttl: "Asset 1",
     img: "http://3dphy.com/images/logo.png",

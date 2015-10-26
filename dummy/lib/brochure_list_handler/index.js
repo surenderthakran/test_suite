@@ -1,6 +1,12 @@
 "use strict";
 
-module.exports = [
+module.exports = function(req, res) {
+    console.log("--- inside brochure_list_handler");
+    console.log(req.body);
+  	res.json(brochureList);
+}
+
+var brochureList = [
     {
         br_id: "broch123",
         ttl: "Brochure 1",

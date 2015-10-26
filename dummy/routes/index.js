@@ -5,58 +5,50 @@ var bodyParser = require('body-parser');
 
 var router = express.Router();
 
-var appRegister = require("../lib/app_register.js");
-var otpAuth = require("../lib/otp_auth.js");
-var homeContent = require("../lib/home_content.js");
-var categoryContent = require("../lib/category_content.js");
-var assetContent = require("../lib/asset_content.js");
-var brochureList = require("../lib/brochure_list.js");
-var brochureAdd = require("../lib/brochure_add.js");
-var brochureContent = require("../lib/brochure_content.js");
+var appRegisterHandler = require("../lib/app_register_handler");
+var otpAuthHandler = require("../lib/otp_auth_handler");
+var homeContentHandler = require("../lib/home_content_handler");
+var categoryContentHandler = require("../lib/category_content_handler");
+var assetContentHandler = require("../lib/asset_content_handler");
+var brochureListHandler = require("../lib/brochure_list_handler");
+var brochureAddHandler = require("../lib/brochure_add_handler");
+var brochureContentHandler = require("../lib/brochure_content_handler");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
-router.use(express.static('public'));
+router.use(express.static(__dirname + '/../public'));
 
 router.post('/v0/service/authorisation/app_register', function (req, res) {
-	console.log(req.body);
-  	res.json(appRegister);
+		appRegisterHandler(req, res);
 });
 
 router.post('/v0/service/authorisation/otp_auth', function (req, res) {
-	console.log(req.body);
-  	res.json(otpAuth);
+		otpAuthHandler(req, res);
 });
 
 router.post('/v0/data/app/home_content', function (req, res) {
-	console.log(req.body);
-  	res.json(homeContent);
+		homeContentHandler(req, res);
 });
 
 router.post('/v0/data/category_content', function (req, res) {
-	console.log(req.body);
-  	res.json(categoryContent);
+		categoryContentHandler(req, res);
 });
 
 router.post('/v0/data/asset_content', function (req, res) {
-	console.log(req.body);
-  	res.json(assetContent);
+		assetContentHandler(req, res);
 });
 
 router.post('/v0/data/brochure_list', function (req, res) {
-	console.log(req.body);
-  	res.json(brochureList);
+		brochureListHandler(req, res);
 });
 
 router.post('/v0/data/brochure_add', function (req, res) {
-	console.log(req.body);
-  	res.json(brochureAdd);
+		brochureAddHandler(req, res);
 });
 
 router.post('/v0/data/brochure_content', function (req, res) {
-	console.log(req.body);
-  	res.json(brochureContent);
+  	brochureContentHandler(req, res);
 });
 
 module.exports = router;
