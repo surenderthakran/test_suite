@@ -5,14 +5,14 @@ var bodyParser = require('body-parser');
 
 var router = express.Router();
 
-var appRegisterHandler = require("../lib/app_register_handler");
-var otpAuthHandler = require("../lib/otp_auth_handler");
-var homeContentHandler = require("../lib/home_content_handler");
-var categoryContentHandler = require("../lib/category_content_handler");
-var assetContentHandler = require("../lib/asset_content_handler");
-var brochureListHandler = require("../lib/brochure_list_handler");
-var brochureAddHandler = require("../lib/brochure_add_handler");
-var brochureContentHandler = require("../lib/brochure_content_handler");
+var appRegisterHandler = require("../lib/handlers/app_register_handler");
+var otpAuthHandler = require("../lib/handlers/otp_auth_handler");
+var homeContentHandler = require("../lib/handlers/home_content_handler");
+var categoryContentHandler = require("../lib/handlers/category_content_handler");
+var assetContentHandler = require("../lib/handlers/asset_content_handler");
+var brochureListHandler = require("../lib/handlers/brochure_list_handler");
+var brochureAddHandler = require("../lib/handlers/brochure_add_handler");
+var brochureContentHandler = require("../lib/handlers/brochure_content_handler");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
