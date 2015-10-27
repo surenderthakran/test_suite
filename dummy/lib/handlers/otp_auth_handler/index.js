@@ -10,6 +10,16 @@ var successResponse = {
     fnm: "First",
     lnm: "Last",
     eid: "test@test.com",
+    phn: [
+        {
+            num: "+919876543210",
+            typ: "personal"
+        },
+        {
+            num: "+919876543210",
+            typ: "work"
+        }
+    ],
     dob: "15-08-1947"
 };
 

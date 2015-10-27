@@ -7,6 +7,7 @@ var router = express.Router();
 
 var appRegisterHandler = require("../lib/handlers/app_register_handler");
 var otpAuthHandler = require("../lib/handlers/otp_auth_handler");
+var updateProfileHandler = require("../lib/handlers/update_profile_handler");
 var homeContentHandler = require("../lib/handlers/home_content_handler");
 var categoryContentHandler = require("../lib/handlers/category_content_handler");
 var assetContentHandler = require("../lib/handlers/asset_content_handler");
@@ -25,6 +26,10 @@ router.post('/v0/service/authorisation/app_register', function (req, res) {
 
 router.post('/v0/service/authorisation/otp_auth', function (req, res) {
 		otpAuthHandler(req, res);
+});
+
+router.post('/v0/service/app/update_profile', function (req, res) {
+		updateProfileHandler(req, res);
 });
 
 router.post('/v0/data/app/home_content', function (req, res) {
