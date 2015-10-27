@@ -1,10 +1,10 @@
 "use strict";
 
 (function() {
-	var url = "/v0/data/brochure_content";
+	var url = "/v0/service/authorisation/app_register";
 	var data = {
 		mno: "+919650627508"
-	}
+	};
 	$( document ).ready(function() {
 		console.log("ready");
 		$.ajax({

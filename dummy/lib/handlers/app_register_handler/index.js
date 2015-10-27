@@ -1,5 +1,7 @@
 "use strict";
 
+var errorConfig = require("../../config/errorConfig.js");
+
 var otpSent = {
 	sts: 1
 };
@@ -15,5 +17,7 @@ module.exports = function(req, res) {
 };
 
 function validateRequestParameters(params) {
-
+	console.log("inside validateRequestParameters()");
+	console.log(params);
+	if(params) {}
 }
