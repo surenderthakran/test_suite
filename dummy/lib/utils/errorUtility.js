@@ -3,8 +3,11 @@
 var internals = {};
 
 internals.errorConfig = {
-	inv: {
+	"inv_prm": {
 		msg: "Invalid Parameters"
+	},
+    "inv_otp": {
+		msg: "Invalid OTP Code"
 	}
 };
 
