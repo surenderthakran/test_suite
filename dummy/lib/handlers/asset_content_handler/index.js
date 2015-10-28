@@ -1,12 +1,8 @@
 "use strict";
 
-module.exports = function(req, res) {
-    console.log("--- inside asset_content_handler");
-    console.log(req.body);
-  	res.json(assetContent);
-}
+var errorUtility = require("../../utils/errorUtility.js");
 
-var assetContent = {
+var successResponse = {
     ast_id: "ast123",
     ttl: "Asset 1",
     img: "http://3dphy.com/images/logo.png",
@@ -55,5 +51,29 @@ var assetContent = {
 	vid: {
 	    url: "http://3dphy.com/images/logo.png",
 	    ttl: "Video 1"
+	}
+};
+
+function validateRequestParameters(params) {
+    console.log("inside validateRequestParameters()");
+	console.log(params);
+	if(params.dst_id && params.id_token) {
+        if (params.ast_id) {
+            return successResponse;
+        } else {
+            return errorUtility.buildErrorResponse("inv_prm");
+        }
+	} else {
+		return errorUtility.buildErrorResponse("inv_prm");
+	}
+}
+
+module.exports = function(req, res) {
+    console.log("--- inside asset_content_handler");
+    console.log(req.body);
+	if (req.body) {
+		res.json(validateRequestParameters(req.body));
+	} else {
+		res.json(errorUtility.buildErrorResponse("inv_prm"));
 	}
 };
