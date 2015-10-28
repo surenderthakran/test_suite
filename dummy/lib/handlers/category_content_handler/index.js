@@ -1,31 +1,48 @@
 "use strict";
 
-module.exports = function(req, res) {
-    console.log("--- inside category_content_handler");
-    console.log(req.body);
-  	res.json(categoryContent);
-}
+var errorUtility = require("../../utils/errorUtility.js");
 
-var categoryContent = [
+var successResponse = [
 	{
 	    ast_id: "ast123",
 	    ttl: "Asset 1",
 	    img: "http://3dphy.com/images/logo.png",
-	    is_pub: true,
-	    is_broch : true
+	    is_pub: true
 	},
 	{
 	    ast_id: "ast124",
 	    ttl: "Asset 2",
 	    img: "http://3dphy.com/images/logo.png",
-	    is_pub: false,
-	    is_broch : true
+	    is_pub: false
 	},
 	{
 	    ast_id: "ast125",
 	    ttl: "Asset 3",
 	    img: "http://3dphy.com/images/logo.png",
-	    is_pub: false,
-	    is_broch : false
+	    is_pub: false
 	}
 ];
+
+function validateRequestParameters(params) {
+    console.log("inside validateRequestParameters()");
+	console.log(params);
+	if(params.dst_id && params.id_token) {
+        if (params.ct_id && params.cat_id) {
+            return successResponse;
+        } else {
+            return errorUtility.buildErrorResponse("inv_prm");
+        }
+	} else {
+		return errorUtility.buildErrorResponse("inv_prm");
+	}
+}
+
+module.exports = function(req, res) {
+    console.log("--- inside category_content_handler");
+    console.log(req.body);
+	if (req.body) {
+		res.json(validateRequestParameters(req.body));
+	} else {
+		res.json(errorUtility.buildErrorResponse("inv_prm"));
+	}
+};
