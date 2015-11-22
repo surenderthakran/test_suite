@@ -4,7 +4,7 @@ var errorUtility = require("../../utils/errorUtility.js");
 
 var successResponse = {
 	sts: 1,
-    br_id: "broch123"
+    broch_id: "broch123"
 };
 
 function validateRequestParameters(params) {

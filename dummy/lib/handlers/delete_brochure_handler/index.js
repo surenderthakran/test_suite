@@ -10,7 +10,7 @@ function validateRequestParameters(params) {
     console.log("inside validateRequestParameters()");
 	console.log(params);
 	if(params.dst_id && params.id_token) {
-        if (params.br_id) {
+        if (params.broch_ids) {
             return successResponse;
         } else {
             return errorUtility.buildErrorResponse("inv_prm");

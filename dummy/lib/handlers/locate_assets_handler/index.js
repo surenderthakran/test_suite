@@ -8,7 +8,14 @@ var successResponse = [
 	    ttl: "Asset 1",
 	    img: "http://3dphy.com/images/logo.png",
 	    is_pub: true,
-        addr: "address1",
+        addr: {
+			adr_ln : "address line",
+			area : "test area`",
+			city : "test city",
+			state : "test state",
+			pin : "test pin",
+			cntry : "India"
+		},
         location: {
             lat: 66.33,
             lng: 66.33
@@ -19,7 +26,14 @@ var successResponse = [
 	    ttl: "Asset 2",
 	    img: "http://3dphy.com/images/logo.png",
 	    is_pub: false,
-        addr: "address2",
+        addr: {
+			adr_ln : "address line",
+			area : "test area`",
+			city : "test city",
+			state : "test state",
+			pin : "test pin",
+			cntry : "India"
+		},
         location: {
             lat: 67.33,
             lng: 67.33
@@ -30,7 +44,14 @@ var successResponse = [
 	    ttl: "Asset 3",
 	    img: "http://3dphy.com/images/logo.png",
 	    is_pub: false,
-        addr: "address3",
+        addr: {
+			adr_ln : "address line",
+			area : "test area`",
+			city : "test city",
+			state : "test state",
+			pin : "test pin",
+			cntry : "India"
+		},
         location: {
             lat: 68.33,
             lng: 68.33

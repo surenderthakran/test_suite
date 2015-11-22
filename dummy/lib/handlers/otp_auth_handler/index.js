@@ -9,7 +9,16 @@ var successResponse = {
     dst_id: "abc123",
     fnm: "First",
     lnm: "Last",
-    eid: "test@test.com",
+    eid: [
+        {
+            id: "test@test.com",
+            type: "work"
+        },
+        {
+            id: "test1@test.com",
+            type: "personal"
+        }
+    ],
     phn: [
         {
             num: "+919876543210",

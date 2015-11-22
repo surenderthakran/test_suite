@@ -4,13 +4,13 @@ var errorUtility = require("../../utils/errorUtility.js");
 
 var successResponse = [
     {
-        br_id: "broch123",
+        broch_id: "broch123",
         ttl: "Brochure 1",
         img: "http://3dphy.com/images/logo.png",
         desc: "Brochure 1 Description"
 	},
 	{
-        br_id: "broch124",
+        broch_id: "broch124",
         ttl: "Brochure 2",
         img: "http://3dphy.com/images/logo.png",
         desc: "Brochure 2 Description"

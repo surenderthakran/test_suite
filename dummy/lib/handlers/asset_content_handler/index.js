@@ -7,7 +7,14 @@ var successResponse = {
     ttl: "Asset 1",
     img: "http://3dphy.com/images/logo.png",
     info: {
-        addr: "test",
+        addr: {
+			adr_ln : "address line",
+			area : "test area`",
+			city : "test city",
+			state : "test state",
+			pin : "test pin",
+			cntry : "India"
+		},
         types: ["2bhk", "4bhk"],
         price_range: [2575000.00, 8590000.00],
         sizes: [800.00, 3000.00],
@@ -48,10 +55,16 @@ var successResponse = {
 	    lat: 28.419728,
 	    lng: 77.042134
 	},
-	vid: {
-	    url: "http://3dphy.com/images/logo.png",
-	    ttl: "Video 1"
-	}
+	vid: [
+		{
+		    url: "https://www.youtube.com/watch?v=piH5_aP0fY8",
+		    ttl: "Video 1"
+		},
+		{
+		    url: "https://www.youtube.com/watch?v=piH5_aP0fY8",
+		    ttl: "Video 1"
+		}
+	]
 };
 
 function validateRequestParameters(params) {
