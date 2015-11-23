@@ -19,7 +19,15 @@ function generateDistributorData() {
         json.slt = getRandomString(["Mr", "Ms", "Mrs"]);
         json.fnm = getRandomFirstName();
         json.lnm = getRandomLastName();
-        json.eid = json.fnm + "." + json.lnm + "@gmail.com";
+        json.eid = [{
+                id: json.fnm + "." + json.lnm + "@gmail.com",
+                type: "work"
+            },
+            {
+                id: json.lnm + "." + json.fnm + "@yahoo.com",
+                type: "personal"
+            }
+        ];
         json.phn = [];
         for (var j = 0; j < 3; j++) {
             var rnd_phn = {};
@@ -91,7 +99,7 @@ function getArrayOfIntegersInRange(maxLength, min, max) {
     var length = getRandomInteger(1, maxLength);
     var result = [];
     for (var i = 0; i < length; i++) {
-        result.push(getRandomInteger(min, max));
+        result.push(getRandomInteger(min, max).toString());
     }
 
     return result;

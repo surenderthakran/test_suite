@@ -85,11 +85,34 @@ var schema = {
 };
 
 var data = {
-	id: 12,
-	name: "test",
-	price: 10,
-	tags: ["a", "b", "c"],
-	email: "abc"
+	"dst_id": "123456",
+    "slt": "Mr",
+    "fnm": "test",
+    "lnm": "test",
+    "eid": "sunnysinghthakran@gmail.com",
+    "phn": [
+        {
+            "isd": "+91",
+            "num": "9876543210",
+            "type": "work"
+        },
+        {
+            "isd": "+91",
+            "num": "9876543210",
+            "type": "work"
+        }
+    ],
+    "addr": {
+        "adr_ln": "address line",
+        "area": "test",
+        "city": "city",
+        "state": "state",
+        "pin": "122001",
+        "cntry": "India"
+    },
+    "dob": "15-08-1947",
+    "crcl_ids": ["123", "456"],
+    "broch_ids": ["123", "456"]
 };
 
 var valid = tv4.validate(data, schema);
