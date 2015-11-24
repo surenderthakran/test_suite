@@ -26,7 +26,7 @@ var successResponse = {
 		},
 		no_of_units: 184
 	},
-	vr_url: "https://www.google.com/url?q=http://openspace.3dphy.com/?un%3Dsa%26ic%3DTulipIvory%26md%3Dt&sa=D&ust=1445595725953000&usg=AFQjCNFvlgbGcAcsxtH3U2RrBn0pfKWsJw",
+	vr_url: "http://openspace.3dphy.com/?un=sa&ic=TulipIvory&md=t",
 	imgs: [
     	{
 	        img: "http://www.m3mpolosuite.com/images/g1.jpg",
