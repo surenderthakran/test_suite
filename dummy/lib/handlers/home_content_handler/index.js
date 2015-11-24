@@ -6,49 +6,41 @@ var successResponse = {
     cities: [
         {
             ct_id: "ct123",
-            nm: "Delhi",
+            nm: "Gurgaon",
             is_sel: true
-		},
-		{
-            ct_id: "ct124",
-            nm: "Mumbai"
 		}
 	],
 	top_ast: [
     	{
 	        ast_id: "ast123",
-	        img: "http://3dphy.com/images/logo.png",
-            ttl: "Asset 1",
-            types: ["2bhk", "4bhk"],
-            price_range: [2575000.00, 8590000.00]
+	        img: "http://www.m3mpolosuite.com/images/g3.jpg",
+            ttl: "M3M Polo Suites",
+            types: ["3bhk", "4bhk"],
+            price_range: [61700000.00, 77400000.00]
 		},
 		{
 	        ast_id: "ast124",
-	        img: "http://3dphy.com/images/logo.png",
-            ttl: "Asset 2",
-            types: ["2bhk", "4bhk"],
-            price_range: [2575000.00, 8590000.00]
+	        img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
+            ttl: "M3M Merlin",
+            types: ["3bhk", "4bhk", "Penthouse"],
+            price_range: [19100000.00, 64300000.00]
 		},
 		{
 	        ast_id: "ast125",
-	        img: "http://3dphy.com/images/logo.png",
-            ttl: "Asset 3",
-            types: ["2bhk", "4bhk"],
-            price_range: [2575000.00, 8590000.00]
+	        img: "http://www.ireoworld.com/victoryvalley/images/home/ireo-victory-valley-flats.jpg",
+            ttl: "IREO Victory Valley",
+            types: ["2bhk", "3bhk", "4bhk", "Penthouse"],
+            price_range: [15400000.00, 62700000.00]
 		}
 	],
 	cats: [
 	    {
 	        cat_id: "cat123",
-	        img: "http://3dphy.com/images/logo.png"
+	        img: "http://www.m3mnewprojects.co.in/assets/images/logo-m3m-india.png"
 		},
 		{
 	        cat_id: "cat124",
-	        img: "http://3dphy.com/images/logo.png"
-		},
-		{
-	        cat_id: "cat125",
-	        img: "http://3dphy.com/images/logo.png"
+	        img: "http://www.ireoworld.com/images/ireo-logo.png"
 		}
 	]
 };

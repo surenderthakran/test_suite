@@ -5,56 +5,74 @@ var errorUtility = require("../../utils/errorUtility.js");
 var successResponse = [
 	{
 	    ast_id: "ast123",
-	    ttl: "Asset 1",
-	    img: "http://3dphy.com/images/logo.png",
+	    ttl: "M3M Polo Suites",
+   		img: "http://www.m3mpolosuite.com/images/g3.jpg",
 	    is_pub: true,
         addr: {
-			adr_ln : "address line",
-			area : "test area`",
-			city : "test city",
-			state : "test state",
-			pin : "test pin",
+			adr_ln : "M3M Polo Suites",
+			area : "Golf Course Road (Extn.), Sector 65",
+			city : "Gurgaon",
+			state : "Haryana",
+			pin : "122002",
 			cntry : "India"
 		},
         location: {
-            lat: 66.33,
-            lng: 66.33
+            lat: 28.4006,
+	    	lng: 77.071
         }
 	},
 	{
 	    ast_id: "ast124",
-	    ttl: "Asset 2",
-	    img: "http://3dphy.com/images/logo.png",
+	    ttl: "M3M Merlin",
+	    img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
 	    is_pub: false,
         addr: {
-			adr_ln : "address line",
-			area : "test area`",
-			city : "test city",
-			state : "test state",
-			pin : "test pin",
+			adr_ln : "M3M Merlin",
+			area : "Sector 67",
+			city : "Gurgaon",
+			state : "Haryana",
+			pin : "122002",
 			cntry : "India"
 		},
         location: {
-            lat: 67.33,
-            lng: 67.33
+            lat: 28.39,
+            lng: 77.060
         }
 	},
 	{
 	    ast_id: "ast125",
-	    ttl: "Asset 3",
-	    img: "http://3dphy.com/images/logo.png",
+	    ttl: "IREO Victory Valley",
+	    img: "http://www.ireoworld.com/victoryvalley/images/home/ireo-victory-valley-flats.jpg",
 	    is_pub: false,
         addr: {
-			adr_ln : "address line",
-			area : "test area`",
-			city : "test city",
-			state : "test state",
-			pin : "test pin",
+			adr_ln : "IREO Victory Valley",
+			area : "Golf Course Road (Extn.), Sector 67",
+			city : "Gurgaon",
+			state : "Haryana",
+			pin : "122001",
 			cntry : "India"
 		},
         location: {
-            lat: 68.33,
-            lng: 68.33
+            lat: 28.391,
+            lng: 77.064
+        }
+	},
+	{
+	    ast_id: "ast126",
+	    ttl: "IREO Gurgaon Hills",
+	    img: "http://www.ireoworld.com/Gurgaonhills/images/home/ireo-gurgaon-hills-luxury-apartments.jpg",
+	    is_pub: false,
+        addr: {
+			adr_ln : "IREO Gurgaon Hills",
+			area : "Gurgaon Faridabad Expressway",
+			city : "Gurgaon",
+			state : "Haryana",
+			pin : "122001",
+			cntry : "India"
+		},
+        location: {
+            lat: 28.435,
+            lng: 77.145
         }
 	}
 ];

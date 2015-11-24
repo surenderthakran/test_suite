@@ -5,15 +5,15 @@ var errorUtility = require("../../utils/errorUtility.js");
 var successResponse = [
     {
         broch_id: "broch123",
-        ttl: "Brochure 1",
-        img: "http://3dphy.com/images/logo.png",
-        desc: "Brochure 1 Description"
+        ttl: "Golf Course Road",
+        img: "http://www.m3mpolosuite.com/images/g3.jpg",
+        desc: "Properties on Golf Course Road"
 	},
 	{
         broch_id: "broch124",
-        ttl: "Brochure 2",
-        img: "http://3dphy.com/images/logo.png",
-        desc: "Brochure 2 Description"
+        ttl: "Sector 67",
+        img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
+        desc: "Properties in Sector 67"
 	}
 ];
 
