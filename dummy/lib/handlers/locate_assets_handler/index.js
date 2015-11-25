@@ -4,9 +4,9 @@ var errorUtility = require("../../utils/errorUtility.js");
 
 var successResponse = [
 	{
-	    ast_id: "ast123",
+	    ast_id: "ast1",
 	    ttl: "M3M Polo Suites",
-   		img: "http://www.m3mpolosuite.com/images/g3.jpg",
+	    img: "http://www.m3mpolosuite.com/images/g3.jpg",
 	    is_pub: true,
         addr: {
 			adr_ln : "M3M Polo Suites",
@@ -18,11 +18,11 @@ var successResponse = [
 		},
         location: {
             lat: 28.4006,
-	    	lng: 77.071
+		    lng: 77.071
         }
 	},
 	{
-	    ast_id: "ast124",
+	    ast_id: "ast2",
 	    ttl: "M3M Merlin",
 	    img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
 	    is_pub: false,
@@ -36,16 +36,16 @@ var successResponse = [
 		},
         location: {
             lat: 28.39,
-            lng: 77.060
+		    lng: 77.060
         }
 	},
 	{
-	    ast_id: "ast125",
-	    ttl: "IREO Victory Valley",
+	    ast_id: "ast3",
+	    ttl: "Ireo Victory Valley",
 	    img: "http://www.ireoworld.com/victoryvalley/images/home/ireo-victory-valley-flats.jpg",
 	    is_pub: false,
         addr: {
-			adr_ln : "IREO Victory Valley",
+			adr_ln : "Ireo Victory Valley",
 			area : "Golf Course Road (Extn.), Sector 67",
 			city : "Gurgaon",
 			state : "Haryana",
@@ -54,25 +54,7 @@ var successResponse = [
 		},
         location: {
             lat: 28.391,
-            lng: 77.064
-        }
-	},
-	{
-	    ast_id: "ast126",
-	    ttl: "IREO Gurgaon Hills",
-	    img: "http://www.ireoworld.com/Gurgaonhills/images/home/ireo-gurgaon-hills-luxury-apartments.jpg",
-	    is_pub: false,
-        addr: {
-			adr_ln : "IREO Gurgaon Hills",
-			area : "Gurgaon Faridabad Expressway",
-			city : "Gurgaon",
-			state : "Haryana",
-			pin : "122001",
-			cntry : "India"
-		},
-        location: {
-            lat: 28.435,
-            lng: 77.145
+		    lng: 77.064
         }
 	}
 ];

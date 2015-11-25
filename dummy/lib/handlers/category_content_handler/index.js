@@ -4,15 +4,15 @@ var errorUtility = require("../../utils/errorUtility.js");
 
 var successResponse = [
 	{
-	    ast_id: "ast123",
-	    ttl: "M3M Polo Suites",
-	    img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
+	    ast_id: "ast1",
+        ttl: "M3M Polo Suites",
+    	img: "http://www.m3mpolosuite.com/images/g3.jpg",
 	    is_pub: true
 	},
 	{
-	    ast_id: "ast124",
-	    ttl: "M3M Merlin",
-	    img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
+	    ast_id: "ast2",
+        ttl: "M3M Merlin",
+    	img: "http://www.m3mmerlin.com/images/gallery/large/2.jpg",
 	    is_pub: false
 	}
 ];
