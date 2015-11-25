@@ -18,6 +18,7 @@ var createBrochureAddHandler = require("../lib/handlers/create_brochure_add_hand
 var deleteBrochureHandler = require("../lib/handlers/delete_brochure_handler");
 var brochureContentHandler = require("../lib/handlers/brochure_content_handler");
 var locateAssetsHandler = require("../lib/handlers/locate_assets_handler");
+var supportDataHandler = require("../lib/handlers/support_data_handler");
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -74,6 +75,10 @@ router.post('/v0/data/brochure_content', function (req, res) {
 
 router.post('/v0/data/locate_assets', function (req, res) {
   	locateAssetsHandler(req, res);
+});
+
+router.post('/v0/data/support_data', function (req, res) {
+  	supportDataHandler(req, res);
 });
 
 module.exports = router;
