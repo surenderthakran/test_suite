@@ -25,7 +25,7 @@ module.exports = {
 			},
 			no_of_units: 184
 		},
-		vr_url: "http://openspace.3dphy.com/?un=sa&ic=TulipIvory&md=t",
+		vr_url: "http://openspace-vr.3dphy.com/?un=sa&ic=Tulip&md=t",
 		imgs: [
 	    	{
 		        img: "http://www.m3mpolosuite.com/images/g1.jpg",
