@@ -14,6 +14,10 @@ module.exports = {
 				pin : "122002",
 				cntry : "India"
 			},
+			location: {
+			    lat: 28.4006,
+			    lng: 77.071
+			},
 	        types: ["3bhk", "4bhk"],
 	        price_range: [61700000.00, 77400000.00],
 	        sizes: [3980.00, 4995.00],
@@ -62,10 +66,6 @@ module.exports = {
 		        ttl: "Floor Plan 4"
 			}
 		],
-		map: {
-		    lat: 28.4006,
-		    lng: 77.071
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/OIA8CrfQ5Xc",
@@ -89,6 +89,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122002",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.39,
+			    lng: 77.060
 			},
 	        types: ["3bhk", "4bhk", "Penthouse"],
 	        price_range: [19100000.00, 64300000.00],
@@ -134,42 +138,38 @@ module.exports = {
 		],
 		floor_plans: [
 		    {
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-01-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-01-b.jpg",
 		        ttl: "Floor Plan 1"
 			},
 			{
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-02-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-02-b.jpg",
 		        ttl: "Floor Plan 2"
 			},
 			{
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-03-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-03-b.jpg",
 		        ttl: "Floor Plan 3"
 			},
 			{
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-04-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-04-b.jpg",
 		        ttl: "Floor Plan 4"
 			},
 			{
-			img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-05-b.pdf",
+			img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-05-b.jpg",
 		        ttl: "Floor Plan 5"
 			},
 			{
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-06-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-06-b.jpg",
 		        ttl: "Floor Plan 6"
 			},
 			{
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-07-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-07-b.jpg",
 		        ttl: "Floor Plan 7"
 			},
 			{
-		        img: "http://www.m3mmerlin.com/downloads/floor_plans/fp-08-b.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Merlin/fp-08-b.jpg",
 		        ttl: "Floor Plan 8"
 			}
 		],
-		map: {
-		    lat: 28.39,
-		    lng: 77.060
-		},
 		vid: [
 			{
 			    url: "https://www.youtube.com/watch?v=VDmHIQzGl3U",
@@ -193,6 +193,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122001",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.391,
+			    lng: 77.064
 			},
 	        types: ["2bhk", "3bhk", "4bhk", "Penthouse"],
 	        price_range: [15400000.00, 62700000.00],
@@ -258,30 +262,26 @@ module.exports = {
 		],
 		floor_plans: [
 		    {
-		        img: "http://www.ireoworld.com/victoryvalley/downloads/floor-plans/3bhk-type1-tower-ab-1.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/IreoVictoryValley/3bhk-midrise.jpg",
 		        ttl: "Floor Plan 1"
 			},
 			{
-		        img: "http://www.ireoworld.com/victoryvalley/downloads/floor-plans/3bhk-midrise.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/IreoVictoryValley/4bhk-midrise.jpg",
 		        ttl: "Floor Plan 2"
 			},
 			{
-		        img: "http://www.ireoworld.com/victoryvalley/downloads/floor-plans/4bhk-type1-tower-ab.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/IreoVictoryValley/3bhk-type1-tower-ab-1.jpg",
 		        ttl: "Floor Plan 3"
 			},
 			{
-		        img: "http://www.ireoworld.com/victoryvalley/downloads/floor-plans/4bhk-midrise.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/IreoVictoryValley/4bhk-type1-tower-ab.jpg",
 		        ttl: "Floor Plan 4"
 			},
 			{
-			img: "http://www.ireoworld.com/victoryvalley/downloads/floor-plans/penthouse-duplex-midrise.pdf",
+			img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/IreoVictoryValley/penthouse-duplex-midrise.jpg",
 		        ttl: "Floor Plan 5"
 			}
 		],
-		map: {
-		    lat: 28.391,
-		    lng: 77.064
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/9YMD3dSPQPM",
@@ -301,6 +301,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122001",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.435,
+			    lng: 77.145
 			},
 	        types: ["3bhk", "4bhk"],
 	        price_range: [42400000.00, 120300000.00],
@@ -370,18 +374,14 @@ module.exports = {
 		],
 		floor_plans: [
 		    {
-		        img: "http://www.ireoworld.com/Gurgaonhills/downloads/floor-plans/Three-bed-room-unit-indicative-layout.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GurgaonHills/Four-bed-room-unit-indicative-layout-page-001.jpg",
 		        ttl: "Floor Plan 1"
 			},
 			{
-		        img: "http://www.ireoworld.com/Gurgaonhills/downloads/floor-plans/Four-bed-room-unit-indicative-layout.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GurgaonHills/Three-bed-room-unit-indicative-layout-page-001.jpg",
 		        ttl: "Floor Plan 2"
 			}
 		],
-		map: {
-		    lat: 28.435,
-		    lng: 77.145
-		},
 		vid: [
 			{
 			    url: "https://www.youtube.com/watch?v=QUNEhD3F0Ew",
@@ -401,6 +401,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122001",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.408,
+			    lng: 77.103
 			},
 	        types: ["1bhk", "2bhk", "Studio"],
 	        price_range: [17300000.00, 27500000.00],
@@ -442,22 +446,18 @@ module.exports = {
 		],
 		floor_plans: [
 		    {
-		        img: "http://www.ascottireocity.com/downloads/floor_plans/ascott-1-bedroom-apartment-layout.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Ascott/ascott-1-bedroom-apartment-layout-page-001.jpg",
 		        ttl: "Floor Plan 1"
 			},
 			{
-		        img: "http://www.ascottireocity.com/downloads/floor_plans/ascott-2-bedroom-apartment-layout.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Ascott/ascott-2-bedroom-apartment-layout-page-001.jpg",
 		        ttl: "Floor Plan 2"
 			},
 			{
-		        img: "http://www.ascottireocity.com/downloads/floor_plans/ascott-studio-apartment-layout.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Ascott/ascott-studio-apartment-layout-page-001.jpg",
 		        ttl: "Floor Plan 3"
 			}
 		],
-		map: {
-		    lat: 28.408,
-		    lng: 77.103
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/RmAJXpWfWvs",
@@ -477,6 +477,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122001",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.400,
+			    lng: 77.097
 			},
 	        types: ["2bhk", "3bhk", "4bhk"],
 	        price_range: [17500000.00, 39700000.00],
@@ -518,22 +522,18 @@ module.exports = {
 		],
 		floor_plans: [
 		    {
-		        img: "http://www.ireoworld.com/skyon/downloads/agrement/2bhk-type-mr1amr1b-block-a-c.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Skyon/2bhk-type-mr1amr1b-block-a-c-page-001.jpg",
 		        ttl: "Floor Plan 1"
 			},
 			{
-		        img: "http://www.ireoworld.com/skyon/downloads/agrement/2bhk-type-mr2-block-a-c-f.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Skyon/2bhk-type-mr2-block-a-c-f-page-001.jpg",
 		        ttl: "Floor Plan 2"
 			},
 			{
-		        img: "http://www.ireoworld.com/skyon/downloads/agrement/3bhk-type-mr3-block-a-c-d-e-f.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/Skyon/3bhk-type-mr3-block-a-c-d-e-f-page-001.jpg",
 		        ttl: "Floor Plan 3"
 			}
 		],
-		map: {
-		    lat: 28.400,
-		    lng: 77.097
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/hTo8CoReGXc",
@@ -553,6 +553,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122001",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.513,
+			    lng: 76.974
 			},
 	        types: ["2bhk", "3bhk", "4bhk"],
 	        price_range: [9971000.00, 17800000.00],
@@ -602,10 +606,6 @@ module.exports = {
 		        ttl: "Floor Plan 4"
 			}
 		],
-		map: {
-		    lat: 28.513,
-		    lng: 76.974
-		},
 		vid: [
 			{
 			    url: "https://www.youtube.com/watch?v=-7E_P9Qx9H4",
@@ -625,6 +625,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122002",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.407,
+			    lng: 77.075
 			},
 	        types: ["3bhk", "4bhk", "Penthouse"],
 	        price_range: [49800000.00, 80200000.00],
@@ -670,34 +674,30 @@ module.exports = {
 		],
 		floor_plans: [
 		    {
-		        img: "http://www.m3mgolfestate.com/downloads/floor_plans/2011-05-27-Tower-01-C-phase-2.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GolfEstate/2011-05-27-Tower-01-C-phase-2.JPG",
 		        ttl: "Floor Plan 1"
 			},
 			{
-		        img: "http://www.m3mgolfestate.com/downloads/floor_plans/2011-05-27-Tower-04-C-phase-2.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GolfEstate/2011-05-27-Tower-04-C-phase-2.JPG",
 		        ttl: "Floor Plan 2"
 			},
 			{
-		        img: "http://www.m3mgolfestate.com/downloads/floor_plans/2011-05-27-Tower-05-C-phase-2.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GolfEstate/2011-05-27-Tower-05-C-phase-2.JPG",
 		        ttl: "Floor Plan 3"
 			},
 			{
-		        img: "http://www.m3mgolfestate.com/downloads/floor_plans/Tower-06-A-phase-2-Part-1.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GolfEstate/2011-05-27-Tower-07-N-phase-2.JPG",
 		        ttl: "Floor Plan 4"
 			},
 			{
-			img: "http://www.m3mgolfestate.com/downloads/floor_plans/Tower-06-A-phase-2-Part-2.pdf",
+			img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GolfEstate/Tower-06-A-phase-2-Part-1.JPG",
 		        ttl: "Floor Plan 5"
 			},
 			{
-		        img: "http://www.m3mgolfestate.com/downloads/floor_plans/2011-05-27-Tower-07-N-phase-2.pdf",
+		        img: "https://s3.amazonaws.com/3dphy-media-dev/floorplans/GolfEstate/Tower-06-A-phase-2-Part-2.JPG",
 		        ttl: "Floor Plan 6"
 			}
 		],
-		map: {
-		    lat: 28.407,
-		    lng: 77.075
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/_N2fAVXf4-M",
@@ -717,6 +717,10 @@ module.exports = {
 				state : "Uttar Pradesh",
 				pin : "201301",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.567,
+			    lng: 77.381
 			},
 	        types: ["1bhk", "2bhk", "3bhk", "4bhk"],
 	        price_range: [5225000.00, 13300000.00],
@@ -766,10 +770,6 @@ module.exports = {
 		        ttl: "Floor Plan 4"
 			}
 		],
-		map: {
-		    lat: 28.567,
-		    lng: 77.381
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/HAuGb7EGyXM",
@@ -789,6 +789,10 @@ module.exports = {
 				state : "Uttar Pradesh",
 				pin : "201009",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.610,
+			    lng: 77.435
 			},
 	        types: ["2bhk", "3bhk"],
 	        price_range: [2790000.00, 5330000.00],
@@ -866,10 +870,6 @@ module.exports = {
 		        ttl: "Floor Plan 5"
 			}
 		],
-		map: {
-		    lat: 28.610,
-		    lng: 77.435
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/opjFSziLahk",
@@ -889,6 +889,10 @@ module.exports = {
 				state : "Uttar Pradesh",
 				pin : "201303",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.549,
+			    lng: 77.346
 			},
 	        types: ["2bhk", "3bhk", "4bhk"],
 	        price_range: [7180000.00, 19000000.00],
@@ -958,10 +962,6 @@ module.exports = {
 		        ttl: "Floor Plan 5"
 			}
 		],
-		map: {
-		    lat: 28.549,
-		    lng: 77.346
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/M1FpljJuCDU",
@@ -981,6 +981,10 @@ module.exports = {
 				state : "Uttar Pradesh",
 				pin : "201304",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.588,
+			    lng: 77.398
 			},
 	        types: ["3bhk", "4bhk", "Penthouse", "Villa"],
 	        price_range: [6526000.00, 13200000.00],
@@ -1074,10 +1078,6 @@ module.exports = {
 		        ttl: "Floor Plan 9"
 			}
 		],
-		map: {
-		    lat: 28.588,
-		    lng: 77.398
-		},
 		vid: [
 			{
 			    url: "https://www.youtube.com/watch?v=SGLR0RTz4p8",
@@ -1097,6 +1097,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122001",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.444,
+			    lng: 76.954
 			},
 	        types: ["2bhk", "3bhk"],
 	        price_range: [9330000.00, 14600000.00],
@@ -1146,10 +1150,6 @@ module.exports = {
 		        ttl: "Floor Plan 3"
 			}
 		],
-		map: {
-		    lat: 28.444,
-		    lng: 76.954
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/WdI337L_i8g",
@@ -1169,6 +1169,10 @@ module.exports = {
 				state : "Haryana",
 				pin : "122002",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.456,
+			    lng: 76.960
 			},
 	        types: ["2bhk", "3bhk", "4bhk"],
 	        price_range: [16000000.00, 19400000.00],
@@ -1242,10 +1246,6 @@ module.exports = {
 		        ttl: "Floor Plan 4"
 			}
 		],
-		map: {
-		    lat: 28.456,
-		    lng: 76.960
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/FCvNwZ18CMA",
@@ -1265,6 +1265,10 @@ module.exports = {
 				state : "Uttar Pradesh",
 				pin : "201301",
 				cntry : "India"
+			},
+			location: {
+			    lat: 28.560,
+			    lng: 77.335
 			},
 	        types: ["3bhk", "4bhk"],
 	        price_range: [16000000.00, 19400000.00],
@@ -1338,10 +1342,6 @@ module.exports = {
 		        ttl: "Floor Plan 4"
 			}
 		],
-		map: {
-		    lat: 28.560,
-		    lng: 77.335
-		},
 		vid: [
 			{
 			    url: "https://youtu.be/drMOUoznwyo",

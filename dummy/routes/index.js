@@ -20,6 +20,14 @@ var brochureContentHandler = require("../lib/handlers/brochure_content_handler")
 var locateAssetsHandler = require("../lib/handlers/locate_assets_handler");
 var supportDataHandler = require("../lib/handlers/support_data_handler");
 
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:17883');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
