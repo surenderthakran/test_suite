@@ -1,8 +1,0 @@
-app:
-  build: .
-  command: make run
-  volumes:
-    - "./:/src/dummy/"
-  ports:
-    - "3000:3000"
-  restart: always
