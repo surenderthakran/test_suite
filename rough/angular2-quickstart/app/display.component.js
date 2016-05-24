@@ -4,35 +4,25 @@
     app.DisplayComponent = ng.core.Component({
         selector: 'display',
         template: '<form>'
-                + '<div *ngFor="#input of inputs">'
-                + '<label attr.for="{{ input.name }}">{{ input.text }}</label>'
-                + '<input name="{{ input.name }}">'
-                + '</div>'
-                + '<input name="test" #name>'
-                + '<button (click)="getData(name)">Submit</button>'
+                + '<label attr.for="title">Title</label>'
+                + '<input name="title" #title>'
+                + '<label attr.for="link">Link</label>'
+                + '<input name="link" #link>'
+                + '<button (click)="addArticle(title, link)">Submit</button>'
                 + '</form>'
                 + '<article></article>'
     })
     .Class({
         constructor: function() {
-            this.inputs = [
-                {
-                    name: "title",
-                    text: "Title"
-                },
-                {
-                    name: "image",
-                    text: "Image"
-                },
-                {
-                    name: "url",
-                    text: "URL"
-                }
+            this.articles = [
+                new app.Article("Angular 2.1", "http://angular.io", 1)
             ];
+            ng.platform.browser.bootstrap(app.ArticleComponent);
         },
-        getData: function (name) {
-            console.log("inside getData()");
-            console.log(name.value);
+        addArticle: function (title, link) {
+            console.log("inside addArticle()");
+            console.log(title.value);
+            console.log(link.value);
         }
     });
 })(window.app || (window.app = {}));

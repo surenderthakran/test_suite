@@ -3,25 +3,26 @@
 (function(app) {
     app.ArticleComponent = ng.core.Component({
         selector: 'article',
+        host: {
+            class: "row"
+        },
         template: '<div>'
-                + '<p>{{ votes }}</p>'
-                + '<a href="{{ link }}">{{ title }}</a>'
+                + '<p style="margin: 0; padding: 0;">{{ article.votes }}</p>'
+                + '<a href="{{ article.link }}">{{ article.title }}</a>'
                 + '<a href (click)="voteUp()">Vote Up</a>'
                 + '<a href (click)="voteDown()">Vote Down</a>'
                 + '</div>'
     })
     .Class({
         constructor: function() {
-            this.votes = 10;
-            this.title = "Angular 2";
-            this.link = "http://angular.io";
+            this.article = new app.Article("Angular 2", "http://angular.io", 10);
         },
         voteUp: function () {
-            this.votes++;
+            this.article.voteUp();
             return false;
         },
         voteDown: function () {
-            this.votes--;
+            this.article.voteDown();
             return false;
         }
     });
