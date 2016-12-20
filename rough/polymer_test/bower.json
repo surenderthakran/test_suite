@@ -1,14 +1,17 @@
 {
   "name": "polymer_test",
-  "version": "1.0.0",
   "description": "docker run -it -v /home/surender/workspace/test_suite/rough/polymer_test:/polymer_test -p 8080:8080 --name=node_polymer1 surenderthakran/nodejs:v6 bash",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
   "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
   "dependencies": {
-    "bower": "^1.8.0"
+    "polymer": "Polymer/polymer#^1.7.1"
   }
 }
