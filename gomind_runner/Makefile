@@ -34,7 +34,7 @@ install:
 	$(MAKE) go_install
 
 run:
-	reflex -s -g 'src/$(GO_PROJECT_NAME)/*.go' make restart
+	reflex -r '\.go$\' -s make restart
 
 restart:
 	@$(MAKE) go_format

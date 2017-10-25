@@ -6,6 +6,6 @@ services:
     volumes:
       - ./src/gomind_runner:/workspace/src/gomind_runner
     ports:
-      - "18660:18660"
+      - "18550:18550"
     logging:
       driver: 'json-file'
