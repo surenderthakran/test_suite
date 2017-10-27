@@ -59,8 +59,9 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 	carMap["good"] = 2
 	carMap["vgood"] = 3
 
+	mind.Describe()
+
 	for {
-		log.Info("========================================================")
 		line, error := reader.Read()
 		if error == io.EOF {
 			break
@@ -68,6 +69,11 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			log.Fatal(error)
 		}
 
+		if line[6] == "unacc" {
+			continue
+		}
+
+		log.Info("========================================================")
 		log.Info(line)
 
 		buyingInput := []float64{0, 0, 0, 0}
@@ -77,6 +83,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			break
 		}
 		buyingInput[buyIndex] = 1
+		// log.Infof("buying: %v", line[0])
+		// log.Info(buyingInput)
 
 		maintInput := []float64{0, 0, 0, 0}
 		maintIndex, ok := maintMap[line[1]]
@@ -85,6 +93,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			break
 		}
 		maintInput[maintIndex] = 1
+		// log.Infof("maint: %v", line[1])
+		// log.Info(maintInput)
 
 		doorsInput := []float64{0, 0, 0, 0}
 		doorsIndex, ok := doorsMap[line[2]]
@@ -93,6 +103,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			break
 		}
 		doorsInput[doorsIndex] = 1
+		// log.Infof("doors: %v", line[2])
+		// log.Info(doorsInput)
 
 		personsInput := []float64{0, 0, 0}
 		personsIndex, ok := personsMap[line[3]]
@@ -101,6 +113,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			break
 		}
 		personsInput[personsIndex] = 1
+		// log.Infof("persons: %v", line[3])
+		// log.Info(personsInput)
 
 		bootInput := []float64{0, 0, 0}
 		bootIndex, ok := bootMap[line[4]]
@@ -109,6 +123,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			break
 		}
 		bootInput[bootIndex] = 1
+		// log.Infof("boot: %v", line[4])
+		// log.Info(bootInput)
 
 		safetyInput := []float64{0, 0, 0}
 		safetyIndex, ok := safetyMap[line[5]]
@@ -117,6 +133,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 			break
 		}
 		safetyInput[safetyIndex] = 1
+		// log.Infof("safety: %v", line[5])
+		// log.Info(safetyInput)
 
 		var input []float64
 		input = append(input, buyingInput...)
@@ -139,5 +157,8 @@ func trainCarEvaluation(mind *gomind.NeuralNetwork) {
 
 		mind.Train(input, output)
 		log.Info(mind.LastOutput())
+
+		break
 	}
+	mind.Describe()
 }

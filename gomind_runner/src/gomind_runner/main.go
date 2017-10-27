@@ -21,12 +21,13 @@ func main() {
 		log.Info(err)
 		return
 	}
-	mind.Describe()
+	log.Info("Neural Network Initialized!")
 
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
-		trainCarEvaluation(mind)
-		fmt.Fprintf(w, "Training complete")
+		// trainCarEvaluation(mind)
+		trainConcreteCompressiveStrength(mind)
+		fmt.Fprintf(w, "Training complete!!")
 	})
 
 	err = http.ListenAndServe(":18550", nil)
@@ -43,5 +44,5 @@ func roundTo(input float64, precision int) float64 {
 }
 
 func initNeuralNetwork() (*gomind.NeuralNetwork, error) {
-	return gomind.NewNeuralNetwork(21, 14, 4)
+	return gomind.NewNeuralNetwork(8, 9, 1)
 }
