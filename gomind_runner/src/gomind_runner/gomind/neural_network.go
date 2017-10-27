@@ -206,8 +206,8 @@ func (network *NeuralNetwork) CalculateError(targetOutput []float64) float64 {
 
 // Describe function prints the current state of the neural network and its components.
 func (network *NeuralNetwork) Describe() {
-	fmt.Println("Hidden Layer:")
+	fmt.Println(fmt.Sprintf("Hidden Layer: (%v)", len(network.hiddenLayer.neurons)))
 	network.hiddenLayer.describe()
-	fmt.Println("\nOutput Layer:")
+	fmt.Println(fmt.Sprintf("nOutput Layer: (%v)", len(network.outputLayer.neurons)))
 	network.outputLayer.describe()
 }
