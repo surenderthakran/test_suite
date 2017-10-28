@@ -21,14 +21,20 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) {
 
 	reader := csv.NewReader(bufio.NewReader(csvFile))
 
+	data := make(map[int]float64)
+
+	counter := 0
+
 	for {
 		line, error := reader.Read()
 		if error == io.EOF {
 			break
 		} else if error != nil {
 			log.Fatal(error)
+			break
 		}
 
+		log.Info("==================================================")
 		log.Info(line)
 
 		cement, err := strconv.ParseFloat(line[0], 64)
@@ -83,10 +89,17 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) {
 
 		output := []float64{strength / 100}
 
-		log.Info(input)
-		log.Info(output)
+		log.Infof("input: %v", input)
+		log.Infof("target: %v", output)
 
 		mind.Train(input, output)
-		log.Info(mind.LastOutput())
+		log.Infof("actual: %v", mind.LastOutput())
+		outputError := mind.CalculateError(output)
+		log.Infof("error: %v", outputError)
+
+		data[counter] = outputError
+		counter++
 	}
+
+	graphData = data
 }
