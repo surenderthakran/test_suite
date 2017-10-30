@@ -9,6 +9,10 @@ import (
 	"gomind_runner/gomind"
 )
 
+var (
+	staticFs = http.FileServer(http.Dir("/workspace/src/gomind_runner/static"))
+)
+
 func main() {
 	// Overriding glog's logtostderr flag's value to print logs to stderr.
 	flag.Lookup("logtostderr").Value.Set("true")
@@ -35,6 +39,8 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(data)
 	})
+
+	http.Handle("/", http.StripPrefix("/", staticFs))
 
 	log.Fatal(http.ListenAndServe(":18550", nil))
 }
