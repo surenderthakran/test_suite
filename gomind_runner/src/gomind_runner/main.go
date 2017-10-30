@@ -25,8 +25,6 @@ func main() {
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
 
-		// trainCarEvaluation(mind)
-
 		data, err := trainConcreteCompressiveStrength(mind)
 		if err != nil {
 			log.Error(err)
@@ -51,5 +49,5 @@ func roundTo(input float64, precision int) float64 {
 }
 
 func initNeuralNetwork() (*gomind.NeuralNetwork, error) {
-	return gomind.NewNeuralNetwork(8, 9, 1)
+	return gomind.NewNeuralNetwork(8, 10, 1)
 }
