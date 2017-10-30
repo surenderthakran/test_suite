@@ -3,6 +3,8 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"encoding/json"
+	"fmt"
 	"io"
 	"os"
 	"strconv"
@@ -11,19 +13,18 @@ import (
 	"gomind_runner/gomind"
 )
 
-func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) {
+func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) ([]byte, error) {
 	log.Info("inside trainConcreteCompressiveStrength()")
 	csvFile, err := os.Open("src/gomind_runner/data/concrete_compressive_strength.csv")
 	if err != nil {
-		log.Errorf("error reading csv file: %v", err)
-		return
+		return nil, fmt.Errorf("error reading csv file: %v", err)
 	}
 
 	reader := csv.NewReader(bufio.NewReader(csvFile))
 
-	data := make(map[int]float64)
+	var graphData []map[string]float64
 
-	counter := 0
+	counter := float64(0)
 
 	for {
 		line, error := reader.Read()
@@ -89,6 +90,8 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) {
 
 		output := []float64{strength / 100}
 
+		log.Info(counter)
+
 		log.Infof("input: %v", input)
 		log.Infof("target: %v", output)
 
@@ -97,9 +100,18 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) {
 		outputError := mind.CalculateError(output)
 		log.Infof("error: %v", outputError)
 
-		data[counter] = outputError
+		errorRecord := make(map[string]float64)
+		errorRecord["x"] = counter
+		errorRecord["y"] = outputError
+
+		log.Info(errorRecord)
+
+		graphData = append(graphData, errorRecord)
+
 		counter++
 	}
 
-	graphData = data
+	json, err := json.Marshal(graphData)
+
+	return json, nil
 }

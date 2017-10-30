@@ -1,18 +1,12 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"math"
 	"net/http"
 
 	log "github.com/golang/glog"
 	"gomind_runner/gomind"
-)
-
-var (
-	staticFs  = http.FileServer(http.Dir("/workspace/src/gomind_runner/static"))
-	graphData map[int]float64
 )
 
 func main() {
@@ -30,10 +24,10 @@ func main() {
 
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
-		// trainCarEvaluation(mind)
-		trainConcreteCompressiveStrength(mind)
 
-		response, err := json.Marshal(graphData)
+		// trainCarEvaluation(mind)
+
+		data, err := trainConcreteCompressiveStrength(mind)
 		if err != nil {
 			log.Error(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -41,10 +35,9 @@ func main() {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Write(response)
+		w.Write(data)
 	})
 
-	http.Handle("/", http.StripPrefix("/", staticFs))
 	log.Fatal(http.ListenAndServe(":18550", nil))
 }
 
