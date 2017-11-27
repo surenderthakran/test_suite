@@ -15,12 +15,13 @@ import (
 
 var (
 	normalizer [][]float64
+	filePath   = "src/gomind_runner/data/concrete_compressive_strength.csv"
 )
 
 // createNormalizer creates a 2D normalizer array which for all 9 attributes
 // stores their min and max value and also a difference of max - min.
 func createNormalizer() {
-	file, err := os.Open("src/gomind_runner/data/concrete_compressive_strength.csv")
+	file, err := os.Open(filePath)
 	if err != nil {
 		log.Errorf("error reading csv file: %v", err)
 		return
@@ -62,6 +63,7 @@ func createNormalizer() {
 
 // normalizeValue normalizes a value from a set using the following equation:
 // normalizedValue = (Value - MinValue)/(MaxValue - MinValue)
+// The goal is to have all the values in the range of 0 to 1.
 func normalizeValue(val float64, index int) float64 {
 	new := (val - normalizer[index][0]) / normalizer[index][2]
 	return new
@@ -69,7 +71,7 @@ func normalizeValue(val float64, index int) float64 {
 
 func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) ([]byte, error) {
 	log.Info("inside trainConcreteCompressiveStrength()")
-	csvFile, err := os.Open("src/gomind_runner/data/concrete_compressive_strength.csv")
+	csvFile, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading csv file: %v", err)
 	}
@@ -172,7 +174,5 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) ([]byte, error
 	graphData["targets"] = targets
 	graphData["actuals"] = actuals
 
-	json, err := json.Marshal(graphData)
-
-	return json, nil
+	return json.Marshal(graphData)
 }
