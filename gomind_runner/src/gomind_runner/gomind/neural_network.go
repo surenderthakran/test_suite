@@ -13,17 +13,17 @@ type NeuralNetwork struct {
 }
 
 const (
-	learningRate = 0.5
+	learningRate = 0.8
 )
 
 // NewNeuralNetwork function returns a new NeuralNetwork object.
 func NewNeuralNetwork(numberOfInputs, numberOfHiddenNeurons, numberOfOutputs int) (*NeuralNetwork, error) {
-	hiddenLayer, err := newLayer(numberOfHiddenNeurons, numberOfInputs)
+	hiddenLayer, err := newHiddenLayer(numberOfHiddenNeurons, numberOfInputs)
 	if err != nil {
 		return nil, fmt.Errorf("error creating a hidden layer: %v", err)
 	}
 
-	outputLayer, err := newLayer(numberOfOutputs, numberOfHiddenNeurons)
+	outputLayer, err := newOutputLayer(numberOfOutputs, numberOfHiddenNeurons)
 	if err != nil {
 		return nil, fmt.Errorf("error creating output layer: %v", err)
 	}
@@ -67,7 +67,9 @@ func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) {
 // By applying the chain rule, https://en.wikipedia.org/wiki/Chain_rule
 // ∂TotalError/∂OutputNeuronWeight = ∂TotalError/∂TotalNetInputToOutputNeuron * ∂TotalNetInputToOutputNeuron/∂OutputNeuronWeight
 func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []float64) {
+	fmt.Println("output layer")
 	for neuronIndex, neuron := range network.outputLayer.neurons {
+		fmt.Println("=== output neuron")
 		// Since a neuron has only one total net input and one output, we need to calculate
 		// the partial derivative of error with respect to the total net input (∂TotalError/∂TotalNetInputToOutputNeuron) only once.
 		//
@@ -77,15 +79,19 @@ func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []f
 		// of only one output neuron, we need to find partial derivative of only the corresponding neuron's error because
 		// the errors due to other neurons would be constant for it and their derivative wouldn't matter.
 		pdErrorWrtTotalNetInputOfOutputNeuron := neuron.calculatePdErrorWrtTotalNetInputOfOutputNeuron(targetOutputs[neuronIndex])
+		fmt.Println("pdErrorWrtTotalNetInputOfOutputNeuron:", pdErrorWrtTotalNetInputOfOutputNeuron)
 
 		for weightIndex, weight := range neuron.weights {
+			fmt.Println("output neuron weight")
 			// For each weight of the neuron we calculate the partial derivative of
 			// total net input with respect to the weight i.e. ∂TotalNetInputToOutputNeuron/∂OutputNeuronWeight.
 			pdTotalNetInputWrtWeight := neuron.calculatePdTotalNetInputWrtWeight(weightIndex)
+			fmt.Println("pdTotalNetInputWrtWeight:", pdTotalNetInputWrtWeight)
 
 			// Finally, the partial derivative of error with respect to the output neuron weight is:
 			// ∂TotalError/∂OutputNeuronWeight = ∂TotalError/∂TotalNetInputToOutputNeuron * ∂TotalNetInputToOutputNeuron/∂OutputNeuronWeight
 			pdErrorWrtWeight := pdErrorWrtTotalNetInputOfOutputNeuron * pdTotalNetInputWrtWeight
+			fmt.Println("pdErrorWrtWeight:", pdErrorWrtWeight)
 
 			// Now that we know how much the output neuron's weight affects the error in the output, we adjust the weight
 			// by subtracting the affect from the current weight after multiplying it with the learning rate.
@@ -123,11 +129,14 @@ func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []f
 // By applying the chain rule, https://en.wikipedia.org/wiki/Chain_rule
 // ∂TotalError/∂HiddenNeuronWeight = ∂TotalError/∂HiddenNeuronOutput * ∂HiddenNeuronOutput/∂TotalNetInputToHiddenNeuron * ∂TotalNetInputToHiddenNeuron/∂HiddenNeuronWeight
 func (network *NeuralNetwork) updateHiddenLayerWeight() {
+	// fmt.Println("===============================================================")
+	// fmt.Println("hidden layer")
 	// First we calculate the derivative of total error with respect to the output of each hidden neuron.
 	// i.e. ∂TotalError/∂HiddenNeuronOutput.
 	for neuronIndex, neuron := range network.hiddenLayer.neurons {
+		// fmt.Println("=== hidden neuron")
 		// Since the total error is a summation of errors in each output neuron's output, we need to calculate the
-		// derivative of error in each output neuron with respect to the output of the hidden neuron and add them.
+		// derivative of error in each output neuron with respect to the output of each hidden neuron and add them.
 		// i.e. ∂TotalError/∂HiddenNeuronOutput = ∂Error1/∂HiddenNeuronOutput + ∂Error2/∂HiddenNeuronOutput + ...
 		dErrorWrtOutputOfHiddenNeuron := float64(0)
 		for _, outputNeuron := range network.outputLayer.neurons {
@@ -135,7 +144,7 @@ func (network *NeuralNetwork) updateHiddenLayerWeight() {
 			// ∂Error/∂HiddenNeuronOutput = ∂Error/∂TotalNetInputToOutputNeuron * ∂TotalNetInputToOutputNeuron/∂HiddenNeuronOutput
 			//
 			// We already have partial derivative of output neuron's error with respect to its total net input for each neuron from previous calculations.
-			// The partial derivative of total net input to output neuron with respect to the current hidden neuron (∂TotalNetInputToOutputNeuron/∂HiddenNeuronOutput),
+			// Also, the partial derivative of total net input of output neuron with respect to the output of the current hidden neuron (∂TotalNetInputToOutputNeuron/∂HiddenNeuronOutput),
 			// is the weight from the current hidden neuron to the current output neuron.
 			dErrorWrtOutputOfHiddenNeuron += outputNeuron.pdErrorWrtTotalNetInputOfOutputNeuron * outputNeuron.weights[neuronIndex]
 		}
@@ -147,15 +156,19 @@ func (network *NeuralNetwork) updateHiddenLayerWeight() {
 		// Next the partial derivative of error with respect to the total net input of the hidden neuron is:
 		// ∂TotalError/∂TotalNetInputToHiddenNeuron = ∂TotalError/∂HiddenNeuronOutput * dHiddenNeuronOutput/dTotalNetInputToHiddenNeuron
 		pdErrorWrtTotalNetInputOfHiddenNeuron := dErrorWrtOutputOfHiddenNeuron * dHiddenNeuronOutputWrtTotalNetInputToHiddenNeuron
+		// fmt.Println("pdErrorWrtTotalNetInputOfHiddenNeuron:", pdErrorWrtTotalNetInputOfHiddenNeuron)
 
 		for weightIndex, weight := range neuron.weights {
+			// fmt.Println("hidden neuron weight")
 			// For each weight of the neuron we calculate the partial derivative of
 			// total net input with respect to the weight i.e. ∂TotalNetInputToHiddenNeuron/∂HiddenNeuronWeight
 			pdTotalNetInputWrtWeight := neuron.calculatePdTotalNetInputWrtWeight(weightIndex)
+			// fmt.Println("pdTotalNetInputWrtWeight:", pdTotalNetInputWrtWeight)
 
 			// Finally, the partial derivative of total error with respect to the hidden neuron weight is:
 			// ∂TotalError/∂HiddenNeuronWeight = ∂TotalError/∂TotalNetInputToHiddenNeuron * ∂TotalNetInputToHiddenNeuron/∂HiddenNeuronWeight
 			pdErrorWrtWeight := pdErrorWrtTotalNetInputOfHiddenNeuron * pdTotalNetInputWrtWeight
+			// fmt.Println("pdErrorWrtWeight:", pdErrorWrtWeight)
 
 			// Now that we know how much the hidden neuron's weight affects the error in the output, we adjust the weight
 			// by subtracting the affect from the current weight after multiplying it with the learning rate.
@@ -208,6 +221,6 @@ func (network *NeuralNetwork) CalculateError(targetOutput []float64) float64 {
 func (network *NeuralNetwork) Describe() {
 	fmt.Println(fmt.Sprintf("Hidden Layer: (%v)", len(network.hiddenLayer.neurons)))
 	network.hiddenLayer.describe()
-	fmt.Println(fmt.Sprintf("nOutput Layer: (%v)", len(network.outputLayer.neurons)))
+	fmt.Println(fmt.Sprintf("\nOutput Layer: (%v)", len(network.outputLayer.neurons)))
 	network.outputLayer.describe()
 }
