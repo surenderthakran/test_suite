@@ -98,7 +98,11 @@ func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []f
 			// by subtracting the affect from the current weight after multiplying it with the learning rate.
 			// The learning rate is a constant value chosen for a network to control the correction in
 			// a network's weight based on a sample.
+			fmt.Println("weight:", weight)
+			fmt.Println("learningRate:", learningRate)
+			fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
 			weight -= learningRate * pdErrorWrtWeight
+			fmt.Println("new weight:", weight)
 
 			neuron.weights[weightIndex] = weight
 		}
@@ -112,12 +116,15 @@ func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []f
 		// Therefore,
 		// ∂TotalError/∂OutputNeuronBias = ∂TotalError/∂TotalNetInputToOutputNeuron
 		pdErrorWrtBias := pdErrorWrtTotalNetInputOfOutputNeuron
+		fmt.Println("pdErrorWrtBias:", pdErrorWrtBias)
 
 		// Now that we know how much the output neuron's bias affects the error in the output, we adjust the bias
 		// by subtracting the affect from the current bias after multiplying it with the learning rate.
 		// The learning rate is a constant value chosen for a network to control the correction in
 		// a network's bias based on a sample.
+		fmt.Println("bias weight:", neuron.bias)
 		neuron.bias -= learningRate * pdErrorWrtBias
+		fmt.Println("new bias weight:", neuron.bias)
 	}
 }
 
