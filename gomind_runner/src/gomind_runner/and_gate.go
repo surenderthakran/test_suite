@@ -40,7 +40,7 @@ func trainAndGate(mind *gomind.NeuralNetwork) ([]byte, error) {
 	}
 
 	log.Info("==================================================================")
-	mind.Describe()
+	// mind.Describe()
 
 	graphData["errors"] = errors
 	graphData["targets"] = targets

@@ -78,7 +78,9 @@ func squash(input float64) float64 {
 // ∂Error/∂Input = ∂Error/∂Output * ∂Output/∂Input
 func (n *neuron) calculatePdErrorWrtTotalNetInputOfOutputNeuron(targetOutput float64) float64 {
 	pdErrorWrtOutput := n.calculatePdErrorWrtOutput(targetOutput)
+	fmt.Println("pdErrorWrtOutput: ", pdErrorWrtOutput)
 	dOutputWrtTotalNetInput := n.calculateDerivativeOutputWrtTotalNetInput()
+	fmt.Println("dOutputWrtTotalNetInput: ", dOutputWrtTotalNetInput)
 	n.pdErrorWrtTotalNetInputOfOutputNeuron = pdErrorWrtOutput * dOutputWrtTotalNetInput
 	return n.pdErrorWrtTotalNetInputOfOutputNeuron
 }

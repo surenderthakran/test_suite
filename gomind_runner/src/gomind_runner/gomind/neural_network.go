@@ -53,6 +53,7 @@ func (network *NeuralNetwork) LastOutput() []float64 {
 
 // Train function trains the neural network using the given set of inputs and outputs.
 func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) {
+	fmt.Println("trainingInput: ", trainingInput)
 	outputs := network.CalculateOutput(trainingInput)
 	network.updateOutputLayerWeight(outputs, trainingOutput)
 	network.updateHiddenLayerWeight()
@@ -67,9 +68,9 @@ func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) {
 // By applying the chain rule, https://en.wikipedia.org/wiki/Chain_rule
 // ∂TotalError/∂OutputNeuronWeight = ∂TotalError/∂TotalNetInputToOutputNeuron * ∂TotalNetInputToOutputNeuron/∂OutputNeuronWeight
 func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []float64) {
-	fmt.Println("output layer")
+	fmt.Println("updating output layer weights ======================================")
 	for neuronIndex, neuron := range network.outputLayer.neurons {
-		fmt.Println("=== output neuron")
+		fmt.Println("===== output neuron")
 		// Since a neuron has only one total net input and one output, we need to calculate
 		// the partial derivative of error with respect to the total net input (∂TotalError/∂TotalNetInputToOutputNeuron) only once.
 		//
@@ -82,7 +83,7 @@ func (network *NeuralNetwork) updateOutputLayerWeight(outputs, targetOutputs []f
 		fmt.Println("pdErrorWrtTotalNetInputOfOutputNeuron:", pdErrorWrtTotalNetInputOfOutputNeuron)
 
 		for weightIndex, weight := range neuron.weights {
-			fmt.Println("output neuron weight")
+			fmt.Println("== output neuron weight")
 			// For each weight of the neuron we calculate the partial derivative of
 			// total net input with respect to the weight i.e. ∂TotalNetInputToOutputNeuron/∂OutputNeuronWeight.
 			pdTotalNetInputWrtWeight := neuron.calculatePdTotalNetInputWrtWeight(weightIndex)
