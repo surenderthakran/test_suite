@@ -26,6 +26,9 @@ func trainAndGate(mind *gomind.NeuralNetwork) ([]byte, error) {
 
 	for i := 0; i < 1; i++ {
 		// rand := rand.Intn(4)
+		// input := trainingSet[rand][0]
+		// output := trainingSet[rand][1]
+
 		input := trainingSet[1][0]
 		output := trainingSet[1][1]
 
@@ -40,7 +43,7 @@ func trainAndGate(mind *gomind.NeuralNetwork) ([]byte, error) {
 	}
 
 	log.Info("==================================================================")
-	// mind.Describe()
+	mind.Describe()
 
 	graphData["errors"] = errors
 	graphData["targets"] = targets
