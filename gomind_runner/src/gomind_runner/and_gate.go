@@ -33,7 +33,7 @@ func trainAndGate(mind *gomind.NeuralNetwork) ([]byte, error) {
 		output := trainingSet[1][1]
 
 		mind.Train(input, output)
-		// log.Infof("actual: %v", mind.LastOutput())
+		log.Infof("actual: %v", mind.LastOutput())
 		outputError := mind.CalculateError(output)
 		// log.Infof("error: %v", outputError)
 

@@ -104,7 +104,7 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 			// fmt.Println("learningRate:", learningRate)
 			// fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
 			neuron.newWeights[weightIndex] = weight - (learningRate * pdErrorWrtWeight)
-			// fmt.Println("new weight:", weight)
+			// fmt.Println("new weight:", neuron.newWeights[weightIndex])
 		}
 
 		// By applying the chain rule, we can define the partial differential of total error with respect to the bias to the output neuron as:
@@ -124,7 +124,7 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 		// a network's bias based on a sample.
 		// fmt.Println("bias weight:", neuron.bias)
 		neuron.newBias = neuron.bias - (learningRate * pdErrorWrtBias)
-		// fmt.Println("new bias weight:", neuron.bias)
+		// fmt.Println("new bias weight:", neuron.newBias)
 	}
 	fmt.Println("==========")
 }
@@ -164,7 +164,7 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 		fmt.Println("dErrorWrtOutputOfHiddenNeuron:", dErrorWrtOutputOfHiddenNeuron)
 
 		// We calculate the derivative of hidden neuron output with respect to total net input to hidden neuron,
-		// dHiddenNeuronOutput/dTotalNetInputToHiddenNeuron
+		// ΔHiddenNeuronOutput/ΔTotalNetInputToHiddenNeuron
 		dHiddenNeuronOutputWrtTotalNetInputToHiddenNeuron := neuron.calculateDerivativeOutputWrtTotalNetInput()
 		fmt.Println("dHiddenNeuronOutputWrtTotalNetInputToHiddenNeuron:", dHiddenNeuronOutputWrtTotalNetInputToHiddenNeuron)
 
@@ -178,18 +178,22 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 			// For each weight of the neuron we calculate the partial derivative of
 			// total net input with respect to the weight i.e. ∂TotalNetInputToHiddenNeuron/∂HiddenNeuronWeight
 			pdTotalNetInputWrtWeight := neuron.calculatePdTotalNetInputWrtWeight(weightIndex)
-			// fmt.Println("pdTotalNetInputWrtWeight:", pdTotalNetInputWrtWeight)
+			fmt.Println("pdTotalNetInputWrtWeight:", pdTotalNetInputWrtWeight)
 
 			// Finally, the partial derivative of total error with respect to the hidden neuron weight is:
 			// ∂TotalError/∂HiddenNeuronWeight = ∂TotalError/∂TotalNetInputToHiddenNeuron * ∂TotalNetInputToHiddenNeuron/∂HiddenNeuronWeight
 			pdErrorWrtWeight := pdErrorWrtTotalNetInputOfHiddenNeuron * pdTotalNetInputWrtWeight
-			// fmt.Println("pdErrorWrtWeight:", pdErrorWrtWeight)
+			fmt.Println("pdErrorWrtWeight:", pdErrorWrtWeight)
 
 			// Now that we know how much the hidden neuron's weight affects the error in the output, we get the new weight
 			// by subtracting the affect from the current weight after multiplying it with the learning rate.
 			// The learning rate is a constant value chosen for a network to control the correction in
 			// a network's weight based on a sample.
+			fmt.Println("weight:", weight)
+			fmt.Println("learningRate:", learningRate)
+			fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
 			neuron.newWeights[weightIndex] = weight - (learningRate * pdErrorWrtWeight)
+			fmt.Println("new weight:", neuron.newWeights[weightIndex])
 			fmt.Println("===")
 		}
 
@@ -202,12 +206,15 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 		// Therefore,
 		// ∂TotalError/∂HiddenNeuronBias = ∂TotalError/∂TotalNetInputToHiddenNeuron
 		pdErrorWrtBias := pdErrorWrtTotalNetInputOfHiddenNeuron
+		fmt.Println("pdErrorWrtBias:", pdErrorWrtBias)
 
 		// Now that we know how much the hidden neuron's bias affects the error in the output, we get the new bias weight
 		// by subtracting the affect from the current bias after multiplying it with the learning rate.
 		// The learning rate is a constant value chosen for a network to control the correction in
 		// a network's bias based on a sample.
+		fmt.Println("bias weight:", neuron.bias)
 		neuron.newBias = neuron.bias - (learningRate * pdErrorWrtBias)
+		fmt.Println("new bias weight:", neuron.newBias)
 		fmt.Println("=====")
 	}
 	fmt.Println("==========")
