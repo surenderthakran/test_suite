@@ -39,6 +39,7 @@ func NewNeuralNetwork(numberOfInputs, numberOfHiddenNeurons, numberOfOutputs int
 // input array based on the current weights.
 func (network *NeuralNetwork) CalculateOutput(input []float64) []float64 {
 	hiddenOutput := network.hiddenLayer.calculateOutput(input)
+	fmt.Println("hiddenOutput: ", hiddenOutput)
 	return network.outputLayer.calculateOutput(hiddenOutput)
 }
 
@@ -54,7 +55,9 @@ func (network *NeuralNetwork) LastOutput() []float64 {
 // Train function trains the neural network using the given set of inputs and outputs.
 func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) {
 	fmt.Println("trainingInput: ", trainingInput)
+	fmt.Println("========== calculating output")
 	outputs := network.CalculateOutput(trainingInput)
+	fmt.Println(outputs)
 	network.calculateNewOutputLayerWeights(outputs, trainingOutput)
 	network.calculateNewHiddenLayerWeights()
 	network.updateWeights()

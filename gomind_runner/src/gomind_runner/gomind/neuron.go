@@ -61,6 +61,7 @@ func (n *neuron) calculateTotalNetInput(input []float64) float64 {
 func squash(input float64) float64 {
 	// to avoid floating-point overflow in the exponential function, we use the
 	// constant 45 as limiting value on the extremes.
+	fmt.Println("squash input: ", input)
 	if input < -45 {
 		return 0
 	} else if input > 45 {
