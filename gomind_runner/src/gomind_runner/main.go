@@ -29,19 +29,19 @@ func main() {
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
 
-		// data, err := trainConcreteCompressiveStrength(mind)
-		// if err != nil {
-		// 	log.Error(err)
-		// 	http.Error(w, err.Error(), http.StatusInternalServerError)
-		// 	return
-		// }
-
-		data, err := trainAndGate(mind)
+		data, err := trainConcreteCompressiveStrength(mind)
 		if err != nil {
 			log.Error(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		// data, err := trainAndGate(mind)
+		// if err != nil {
+		// 	log.Error(err)
+		// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 	return
+		// }
 
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(data)
@@ -49,6 +49,7 @@ func main() {
 
 	http.Handle("/", http.StripPrefix("/", staticFs))
 
+	log.Info("Starting HTTP Server of port 18550...")
 	log.Fatal(http.ListenAndServe(":18550", nil))
 }
 
@@ -62,5 +63,5 @@ func roundTo(input float64, precision int) float64 {
 }
 
 func initNeuralNetwork() (*gomind.NeuralNetwork, error) {
-	return gomind.NewNeuralNetwork(2, 2, 1)
+	return gomind.NewNeuralNetwork(8, 10, 1)
 }

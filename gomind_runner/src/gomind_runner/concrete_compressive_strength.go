@@ -155,8 +155,8 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) ([]byte, error
 
 		// log.Info(counter)
 
-		// log.Infof("input: %v", input)
-		// log.Infof("target: %v", output)
+		log.Infof("input: %v", input)
+		log.Infof("target: %v", output)
 
 		mind.Train(input, output)
 		// log.Infof("actual: %v", mind.LastOutput())
