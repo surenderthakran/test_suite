@@ -69,8 +69,14 @@ func normalizeValue(val float64, index int) float64 {
 	return new
 }
 
-func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) ([]byte, error) {
-	log.Info("inside trainConcreteCompressiveStrength()")
+func trainConcreteCompressiveStrength() ([]byte, error) {
+	// log.Info("inside trainConcreteCompressiveStrength()")
+	mind, err := gomind.NewNeuralNetwork(8, 10, 1)
+	if err != nil {
+		log.Info(err)
+		return nil, err
+	}
+
 	csvFile, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading csv file: %v", err)
@@ -155,8 +161,8 @@ func trainConcreteCompressiveStrength(mind *gomind.NeuralNetwork) ([]byte, error
 
 		// log.Info(counter)
 
-		log.Infof("input: %v", input)
-		log.Infof("target: %v", output)
+		// log.Infof("input: %v", input)
+		// log.Infof("target: %v", output)
 
 		mind.Train(input, output)
 		// log.Infof("actual: %v", mind.LastOutput())

@@ -61,7 +61,7 @@ func (n *neuron) calculateTotalNetInput(input []float64) float64 {
 func squash(input float64) float64 {
 	// to avoid floating-point overflow in the exponential function, we use the
 	// constant 45 as limiting value on the extremes.
-	fmt.Println("squash input: ", input)
+	// fmt.Println("squash input: ", input)
 	if input < -45 {
 		return 0
 	} else if input > 45 {
@@ -79,9 +79,9 @@ func squash(input float64) float64 {
 // ∂Error/∂Input = ∂Error/∂Output * ∂Output/∂Input
 func (n *neuron) calculatePdErrorWrtTotalNetInputOfOutputNeuron(targetOutput float64) float64 {
 	pdErrorWrtOutput := n.calculatePdErrorWrtOutput(targetOutput)
-	fmt.Println("pdErrorWrtOutput: ", pdErrorWrtOutput)
+	// fmt.Println("pdErrorWrtOutput: ", pdErrorWrtOutput)
 	dOutputWrtTotalNetInput := n.calculateDerivativeOutputWrtTotalNetInput()
-	fmt.Println("dOutputWrtTotalNetInput: ", dOutputWrtTotalNetInput)
+	// fmt.Println("dOutputWrtTotalNetInput: ", dOutputWrtTotalNetInput)
 	n.pdErrorWrtTotalNetInputOfOutputNeuron = pdErrorWrtOutput * dOutputWrtTotalNetInput
 	return n.pdErrorWrtTotalNetInputOfOutputNeuron
 }

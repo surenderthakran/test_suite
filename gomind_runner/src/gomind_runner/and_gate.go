@@ -2,13 +2,20 @@ package main
 
 import (
 	"encoding/json"
-	// "math/rand"
+	"fmt"
+	"math/rand"
 
 	log "github.com/golang/glog"
 	"gomind_runner/gomind"
 )
 
-func trainAndGate(mind *gomind.NeuralNetwork) ([]byte, error) {
+func trainAndGate() ([]byte, error) {
+	mind, err := gomind.NewNeuralNetwork(2, 2, 1)
+	if err != nil {
+		log.Info(err)
+		return nil, err
+	}
+
 	graphData := make(map[string][]float64)
 	var errors []float64
 	var targets []float64
@@ -24,22 +31,21 @@ func trainAndGate(mind *gomind.NeuralNetwork) ([]byte, error) {
 	mind.Describe()
 	log.Info("==================================================================")
 
-	for i := 0; i < 1; i++ {
-		// rand := rand.Intn(4)
-		// input := trainingSet[rand][0]
-		// output := trainingSet[rand][1]
-
-		input := trainingSet[1][0]
-		output := trainingSet[1][1]
+	for i := 0; i < 1000; i++ {
+		rand := rand.Intn(4)
+		input := trainingSet[rand][0]
+		output := trainingSet[rand][1]
 
 		mind.Train(input, output)
-		log.Infof("actual: %v", mind.LastOutput())
-		outputError := mind.CalculateError(output)
-		// log.Infof("error: %v", outputError)
 
-		errors = append(errors, outputError)
+		error := mind.CalculateError(output)
+		actual := mind.LastOutput()
+
+		fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", i, input, output, actual, error)
+
+		errors = append(errors, error)
 		targets = append(targets, output...)
-		actuals = append(actuals, mind.LastOutput()...)
+		actuals = append(actuals, actual...)
 	}
 
 	log.Info("==================================================================")
