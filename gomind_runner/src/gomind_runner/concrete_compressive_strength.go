@@ -21,6 +21,7 @@ var (
 // createNormalizer creates a 2D normalizer array which for all 9 attributes
 // stores their min and max value and also a difference of max - min.
 func createNormalizer() {
+	log.Info("Normalizing training data..")
 	file, err := os.Open(filePath)
 	if err != nil {
 		log.Errorf("error reading csv file: %v", err)
@@ -159,19 +160,17 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		// we normalize the output so that it is between 0 and 1.
 		output := []float64{normalizeValue(strength, 8)}
 
-		// log.Info(counter)
-
-		// log.Infof("input: %v", input)
-		// log.Infof("target: %v", output)
-
 		mind.Train(input, output)
-		// log.Infof("actual: %v", mind.LastOutput())
+
 		outputError := mind.CalculateError(output)
-		// log.Infof("error: %v", outputError)
+		actual := mind.LastOutput()
+
+		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		errors = append(errors, outputError)
 		targets = append(targets, output...)
-		actuals = append(actuals, mind.LastOutput()...)
+		actuals = append(actuals, actual...)
 
 		counter++
 	}
