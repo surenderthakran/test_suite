@@ -31,6 +31,7 @@ function trainNetwork() {
     drawChart(data);
   })
   .catch(function(err) {
+    document.getElementById("status").textContent = "Training Failed!"
     console.error(err);
   });
 }

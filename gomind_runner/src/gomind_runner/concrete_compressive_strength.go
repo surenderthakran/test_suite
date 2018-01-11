@@ -74,8 +74,7 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 	// log.Info("inside trainConcreteCompressiveStrength()")
 	mind, err := gomind.NewNeuralNetwork(8, 10, 1)
 	if err != nil {
-		log.Info(err)
-		return nil, err
+		return nil, fmt.Errorf("unable to train: %v", err)
 	}
 
 	csvFile, err := os.Open(filePath)
