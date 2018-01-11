@@ -46,7 +46,7 @@ function drawChart(data) {
   }
   var myChart = Highcharts.chart('container', {
     title: {
-      text: 'CNN Output Errors'
+      text: 'ANN Output Chart'
     },
     series: series,
   });

@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"time"
 
+	"gomind_runner/gomind/activation"
 	"gomind_runner/gomind/layer"
 )
 
@@ -26,12 +27,12 @@ func NewNeuralNetwork(numberOfInputs, numberOfHiddenNeurons, numberOfOutputs int
 	// setting timestamp as seed for random number generator.
 	rand.Seed(time.Now().UnixNano())
 
-	hiddenLayer, err := layer.New(numberOfHiddenNeurons, numberOfInputs)
+	hiddenLayer, err := layer.New(numberOfHiddenNeurons, numberOfInputs, activation.RELU)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create neural network: \n%v", err)
 	}
 
-	outputLayer, err := layer.New(numberOfOutputs, numberOfHiddenNeurons)
+	outputLayer, err := layer.New(numberOfOutputs, numberOfHiddenNeurons, activation.SIGMOID)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create neural network: %v", err)
 	}

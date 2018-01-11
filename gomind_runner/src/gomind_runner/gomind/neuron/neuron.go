@@ -25,15 +25,16 @@ func (n *Neuron) String() string {
 	return fmt.Sprintf(`Neuron {
 	weights: %v,
 	bias: %v,
-}`, n.weights, n.bias)
+	activation: %v,
+}`, n.weights, n.bias, n.activation)
 }
 
-func New(weights []float64, bias float64) (*Neuron, error) {
+func New(weights []float64, bias float64, activationFunction activation.Name) (*Neuron, error) {
 	if len(weights) == 0 {
 		return nil, fmt.Errorf("unable to create neuron without any weights")
 	}
 
-	activationService, err := activation.New(activation.SIGMOID)
+	activationService, err := activation.New(activationFunction)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create neuron with invalid activation function: %v", err)
 	}
@@ -117,6 +118,12 @@ func (n *Neuron) squash() float64 {
 		} else {
 			return 1.0 / (1.0 + math.Exp(-n.netInput))
 		}
+	} else if n.activation.Name() == activation.RELU {
+		if n.netInput < 0 {
+			return 0
+		} else {
+			return n.netInput
+		}
 	}
 	return 0
 }
@@ -167,6 +174,12 @@ func (n *Neuron) CalculateDerivativeOutputWrtTotalNetInput() float64 {
 	// dOutput/dInput = Output * (1 - Output)
 	if n.activation.Name() == activation.SIGMOID {
 		return n.output * (1 - n.output)
+	} else if n.activation.Name() == activation.RELU {
+		if n.netInput < 0 {
+			return 0
+		} else {
+			return 1
+		}
 	}
 	return 0
 }

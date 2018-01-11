@@ -14,8 +14,9 @@ import (
 )
 
 var (
-	normalizer [][]float64
-	filePath   = "src/gomind_runner/data/concrete_compressive_strength.csv"
+	normalizeData = true
+	normalizer    [][]float64
+	filePath      = "src/gomind_runner/data/concrete_compressive_strength.csv"
 )
 
 // createNormalizer creates a 2D normalizer array which for all 9 attributes
@@ -82,7 +83,9 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		return nil, fmt.Errorf("error reading csv file: %v", err)
 	}
 
-	createNormalizer()
+	if normalizeData {
+		createNormalizer()
+	}
 
 	reader := csv.NewReader(bufio.NewReader(csvFile))
 
@@ -147,8 +150,12 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		}
 
 		var input []float64
-		// we normalize all values so that they are between 0 and 1.
-		input = append(input, normalizeValue(cement, 0), normalizeValue(slag, 1), normalizeValue(ash, 2), normalizeValue(water, 3), normalizeValue(plasticizer, 4), normalizeValue(coarse, 5), normalizeValue(fine, 6), normalizeValue(age, 7))
+		if normalizeData {
+			// we normalize all values so that they are between 0 and 1.
+			input = append(input, normalizeValue(cement, 0), normalizeValue(slag, 1), normalizeValue(ash, 2), normalizeValue(water, 3), normalizeValue(plasticizer, 4), normalizeValue(coarse, 5), normalizeValue(fine, 6), normalizeValue(age, 7))
+		} else {
+			input = append(input, cement, slag, ash, water, plasticizer, coarse, fine, age)
+		}
 
 		strength, err := strconv.ParseFloat(line[8], 64)
 		if err != nil {
@@ -156,15 +163,20 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 			break
 		}
 
-		// we normalize the output so that it is between 0 and 1.
-		output := []float64{normalizeValue(strength, 8)}
+		var output []float64
+		if normalizeData {
+			// we normalize the output so that it is between 0 and 1.
+			output = []float64{normalizeValue(strength, 8)}
+		} else {
+			output = []float64{strength}
+		}
 
 		mind.Train(input, output)
 
 		outputError := mind.CalculateError(output)
 		actual := mind.LastOutput()
 
-		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
 		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		errors = append(errors, outputError)
@@ -173,6 +185,8 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 
 		counter++
 	}
+
+	mind.Describe()
 
 	graphData["errors"] = errors
 	graphData["targets"] = targets

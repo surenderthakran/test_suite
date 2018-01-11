@@ -6,6 +6,7 @@ type Name int
 
 const (
 	SIGMOID Name = iota
+	RELU
 )
 
 type Service struct {
@@ -13,8 +14,7 @@ type Service struct {
 }
 
 func New(name Name) (*Service, error) {
-	switch name {
-	case SIGMOID:
+	if supportedFunction(name) {
 		return &Service{
 			name: name,
 		}, nil
@@ -24,4 +24,24 @@ func New(name Name) (*Service, error) {
 
 func (s *Service) Name() Name {
 	return s.name
+}
+
+func (s *Service) String() string {
+	switch s.name {
+	case SIGMOID:
+		return "SIGMOID"
+	case RELU:
+		return "RELU"
+	}
+	return ""
+}
+
+func supportedFunction(name Name) bool {
+	supportedFunctions := []Name{SIGMOID, RELU}
+	for _, functionName := range supportedFunctions {
+		if functionName == name {
+			return true
+		}
+	}
+	return false
 }

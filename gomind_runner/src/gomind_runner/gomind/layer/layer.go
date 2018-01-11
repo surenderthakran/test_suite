@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 
+	"gomind_runner/gomind/activation"
 	"gomind_runner/gomind/neuron"
 )
 
@@ -11,7 +12,7 @@ type Layer struct {
 	neurons []*neuron.Neuron
 }
 
-func New(numberOfNeurons, numberOfNeuronsInPreviousLayer int) (*Layer, error) {
+func New(numberOfNeurons, numberOfNeuronsInPreviousLayer int, activationFunction activation.Name) (*Layer, error) {
 	if numberOfNeurons <= 0 {
 		return nil, fmt.Errorf("%d is not a valid number of neurons", numberOfNeurons)
 	}
@@ -25,7 +26,7 @@ func New(numberOfNeurons, numberOfNeuronsInPreviousLayer int) (*Layer, error) {
 
 		bias := rand.Float64()
 
-		neuron, err := neuron.New(weights, bias)
+		neuron, err := neuron.New(weights, bias, activationFunction)
 		if err != nil {
 			return nil, fmt.Errorf("error creating layer: \n%v", err)
 		}
