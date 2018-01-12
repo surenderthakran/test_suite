@@ -11,9 +11,10 @@ import (
 func trainAndGate() ([]byte, error) {
 	log.Info("Training for AND Gate")
 	mind, err := gomind.New(&gomind.ModelConfiguration{
-		NumberOfInputs:  2,
-		NumberOfOutputs: 1,
-		ModelType:       "regression",
+		NumberOfInputs:                    2,
+		NumberOfOutputs:                   1,
+		ModelType:                         "regression",
+		HiddenLayerActivationFunctionName: "leaky_relu",
 	})
 	if err != nil {
 		log.Info(err)
@@ -35,7 +36,7 @@ func trainAndGate() ([]byte, error) {
 	// mind.Describe()
 	// log.Info("==================================================================")
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 10000; i++ {
 		rand := rand.Intn(4)
 		input := trainingSet[rand][0]
 		output := trainingSet[rand][1]

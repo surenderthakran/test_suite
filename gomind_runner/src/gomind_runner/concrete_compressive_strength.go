@@ -38,6 +38,8 @@ func readTrainingSet() error {
 		normalizer = append(normalizer, []float64{1000, 0, 1000})
 	}
 
+	trainingSet = [][]float64{}
+
 	for {
 		line, error := reader.Read()
 		if error == io.EOF {

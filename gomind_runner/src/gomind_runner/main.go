@@ -21,8 +21,8 @@ func main() {
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
 
-		data, err := trainConcreteCompressiveStrength()
-		// data, err := trainAndGate()
+		// data, err := trainConcreteCompressiveStrength()
+		data, err := trainAndGate()
 		if err != nil {
 			log.Error(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
