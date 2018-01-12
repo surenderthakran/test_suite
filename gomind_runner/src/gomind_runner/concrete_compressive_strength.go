@@ -190,7 +190,7 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		counter++
 	}
 
-	// mind.Describe()
+	mind.Describe(true)
 
 	graphData["errors"] = errors
 	graphData["targets"] = targets
