@@ -72,8 +72,12 @@ func normalizeValue(val float64, index int) float64 {
 }
 
 func trainConcreteCompressiveStrength() ([]byte, error) {
-	// log.Info("inside trainConcreteCompressiveStrength()")
-	mind, err := gomind.NewNeuralNetwork(8, 10, 1)
+	log.Info("Training for Concrete Compressive Strength")
+	mind, err := gomind.New(&gomind.ModelConfiguration{
+		NumberOfInputs:  8,
+		NumberOfOutputs: 1,
+		ModelType:       "regression",
+	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
 	}
@@ -176,7 +180,7 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		outputError := mind.CalculateError(output)
 		actual := mind.LastOutput()
 
-		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
 		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		errors = append(errors, outputError)
@@ -186,7 +190,7 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		counter++
 	}
 
-	mind.Describe()
+	// mind.Describe()
 
 	graphData["errors"] = errors
 	graphData["targets"] = targets

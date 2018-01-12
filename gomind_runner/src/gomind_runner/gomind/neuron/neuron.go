@@ -29,14 +29,9 @@ func (n *Neuron) String() string {
 }`, n.weights, n.bias, n.activation)
 }
 
-func New(weights []float64, bias float64, activationFunction activation.Name) (*Neuron, error) {
+func New(weights []float64, bias float64, activationService *activation.Service) (*Neuron, error) {
 	if len(weights) == 0 {
 		return nil, fmt.Errorf("unable to create neuron without any weights")
-	}
-
-	activationService, err := activation.New(activationFunction)
-	if err != nil {
-		return nil, fmt.Errorf("unable to create neuron with invalid activation function: %v", err)
 	}
 
 	return &Neuron{
@@ -106,7 +101,7 @@ func (n *Neuron) calculateTotalNetInput(input []float64) float64 {
 
 // squash function applies an activation function on the total net input of a neuron to generate its output.
 func (n *Neuron) squash() float64 {
-	if n.activation.Name() == activation.SIGMOID {
+	if n.activation.Name() == "SIGMOID" {
 		// Sigmoid activation function applies the non-linear sigmoid function on the total net input of a neuron to generate its output.
 		// f(x) = 1 * (1 + (e ^ -x))
 		// to avoid floating-point overflow in the exponential function, we use the
@@ -118,7 +113,7 @@ func (n *Neuron) squash() float64 {
 		} else {
 			return 1.0 / (1.0 + math.Exp(-n.netInput))
 		}
-	} else if n.activation.Name() == activation.RELU {
+	} else if n.activation.Name() == "RELU" {
 		if n.netInput < 0 {
 			return 0
 		} else {
@@ -172,9 +167,9 @@ func (n *Neuron) CalculateDerivativeOutputWrtTotalNetInput() float64 {
 	// dOutput/dInput = d(1.0 / (1.0 + (e ^ -Input)))/dInput
 	// According to, https://en.wikipedia.org/wiki/Logistic_function#Derivative
 	// dOutput/dInput = Output * (1 - Output)
-	if n.activation.Name() == activation.SIGMOID {
+	if n.activation.Name() == "SIGMOID" {
 		return n.output * (1 - n.output)
-	} else if n.activation.Name() == activation.RELU {
+	} else if n.activation.Name() == "RELU" {
 		if n.netInput < 0 {
 			return 0
 		} else {
