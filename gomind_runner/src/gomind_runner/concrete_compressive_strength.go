@@ -74,9 +74,10 @@ func normalizeValue(val float64, index int) float64 {
 func trainConcreteCompressiveStrength() ([]byte, error) {
 	log.Info("Training for Concrete Compressive Strength")
 	mind, err := gomind.New(&gomind.ModelConfiguration{
-		NumberOfInputs:  8,
-		NumberOfOutputs: 1,
-		ModelType:       "regression",
+		NumberOfInputs:                    8,
+		NumberOfOutputs:                   1,
+		ModelType:                         "regression",
+		HiddenLayerActivationFunctionName: "leaky_relu",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
