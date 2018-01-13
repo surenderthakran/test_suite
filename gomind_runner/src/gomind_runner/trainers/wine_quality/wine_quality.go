@@ -41,7 +41,8 @@ func Train() ([]byte, error) {
 		NumberOfInputs:                    11,
 		NumberOfOutputs:                   1,
 		ModelType:                         "regression",
-		HiddenLayerActivationFunctionName: "leaky_relu",
+		LearningRate:                      0.1,
+		HiddenLayerActivationFunctionName: "sigmoid",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
@@ -52,7 +53,7 @@ func Train() ([]byte, error) {
 	var targets []float64
 	var actuals []float64
 
-	for counter, dataPoint := range trainingSet {
+	for _, dataPoint := range trainingSet {
 		input := dataPoint[:11]
 		output := dataPoint[11:]
 
@@ -61,7 +62,7 @@ func Train() ([]byte, error) {
 		outputError := mind.CalculateError(output)
 		actual := mind.LastOutput()
 
-		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
 		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		errors = append(errors, outputError)

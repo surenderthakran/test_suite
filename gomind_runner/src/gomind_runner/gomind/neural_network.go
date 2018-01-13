@@ -14,9 +14,10 @@ import (
 
 // NeuralNetwork describes a single hidden layer MLP feed forward neural network.
 type NeuralNetwork struct {
-	model       *ModelConfiguration
-	hiddenLayer *layer.Layer
-	outputLayer *layer.Layer
+	model        *ModelConfiguration
+	learningRate float64
+	hiddenLayer  *layer.Layer
+	outputLayer  *layer.Layer
 }
 
 type ModelConfiguration struct {
@@ -24,13 +25,10 @@ type ModelConfiguration struct {
 	NumberOfOutputs                   int
 	ModelType                         string
 	NumberOfHiddenLayerNeurons        int
+	LearningRate                      float64
 	HiddenLayerActivationFunctionName string
 	OutputLayerActivationFunctionName string
 }
-
-const (
-	learningRate = 0.5
-)
 
 func New(model *ModelConfiguration) (*NeuralNetwork, error) {
 	fmt.Println("Initializing new Neural Network!")
@@ -45,6 +43,14 @@ func New(model *ModelConfiguration) (*NeuralNetwork, error) {
 		return nil, errors.New("NumberOfOutputs field in ModelConfiguration is a mandatory field which cannot be zero.")
 	}
 
+	learningRate := 0.5
+	if model.LearningRate != 0 {
+		if model.LearningRate < 0 || model.LearningRate > 1 {
+			return nil, errors.New("LearningRate cannot be less than 0 or greater than 1.")
+		}
+		learningRate = model.LearningRate
+	}
+
 	modelType := strings.Replace(strings.TrimSpace(strings.ToLower(model.ModelType)), " ", "", -1)
 	if modelType == "regression" {
 		fmt.Println("Configuring Neural network for Regression model")
@@ -57,7 +63,7 @@ func New(model *ModelConfiguration) (*NeuralNetwork, error) {
 
 		hiddenLayerActivationFunctionName := model.HiddenLayerActivationFunctionName
 		if hiddenLayerActivationFunctionName == "" {
-			hiddenLayerActivationFunctionName = "RELU"
+			hiddenLayerActivationFunctionName = "LEAKY_RELU"
 			fmt.Println("Estimated Ideal Activation Function for Hidden Layer Neurons: ", hiddenLayerActivationFunctionName)
 		}
 		hiddenLayerActivationService, err := activation.New(hiddenLayerActivationFunctionName)
@@ -86,9 +92,10 @@ func New(model *ModelConfiguration) (*NeuralNetwork, error) {
 		}
 
 		return &NeuralNetwork{
-			model:       model,
-			hiddenLayer: hiddenLayer,
-			outputLayer: outputLayer,
+			model:        model,
+			learningRate: learningRate,
+			hiddenLayer:  hiddenLayer,
+			outputLayer:  outputLayer,
 		}, nil
 	} else if modelType == "classification" {
 		// TODO(surenderthakran): support auto-configuration for classification type neural network models.
@@ -187,7 +194,7 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 			// fmt.Println("weight:", weight)
 			// fmt.Println("learningRate:", learningRate)
 			// fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
-			neuron.SetNewWeight(weight-(learningRate*pdErrorWrtWeight), weightIndex)
+			neuron.SetNewWeight(weight-(network.learningRate*pdErrorWrtWeight), weightIndex)
 			// fmt.Println("new weight:", neuron.newWeights[weightIndex])
 		}
 
@@ -207,7 +214,7 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 		// The learning rate is a constant value chosen for a network to control the correction in
 		// a network's bias based on a sample.
 		// fmt.Println("bias weight:", neuron.bias)
-		neuron.SetNewBias(neuron.Bias() - (learningRate * pdErrorWrtBias))
+		neuron.SetNewBias(neuron.Bias() - (network.learningRate * pdErrorWrtBias))
 		// fmt.Println("new bias weight:", neuron.newBias)
 	}
 	// fmt.Println("==========")
@@ -276,7 +283,7 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 			// fmt.Println("weight:", weight)
 			// fmt.Println("learningRate:", learningRate)
 			// fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
-			neuron.SetNewWeight(weight-(learningRate*pdErrorWrtWeight), weightIndex)
+			neuron.SetNewWeight(weight-(network.learningRate*pdErrorWrtWeight), weightIndex)
 			// fmt.Println("new weight:", neuron.newWeights[weightIndex])
 			// fmt.Println("===")
 		}
@@ -297,7 +304,7 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 		// The learning rate is a constant value chosen for a network to control the correction in
 		// a network's bias based on a sample.
 		// fmt.Println("bias weight:", neuron.bias)
-		neuron.SetNewBias(neuron.Bias() - (learningRate * pdErrorWrtBias))
+		neuron.SetNewBias(neuron.Bias() - (network.learningRate * pdErrorWrtBias))
 		// fmt.Println("new bias weight:", neuron.newBias)
 		// fmt.Println("=====")
 	}
