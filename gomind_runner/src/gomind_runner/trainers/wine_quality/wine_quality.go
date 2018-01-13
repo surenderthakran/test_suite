@@ -1,4 +1,4 @@
-package main
+package wine_quality
 
 import (
 	"bufio"
@@ -15,17 +15,20 @@ import (
 )
 
 var (
-	normalizeData = true
-	normalizer    [][]float64
-	trainingSet   [][]float64
-	filePath      = "src/gomind_runner/data/concrete_compressive_strength.csv"
+	normalizeData     = true
+	normalizer        [][]float64
+	trainingSet       [][]float64
+	redWineFilePath   = "src/gomind_runner/trainers/wine_quality/winequality-red.csv"
+	whiteWineFilePath = "src/gomind_runner/trainers/wine_quality/winequality-white.csv"
+	trainRedWine      = false
 )
 
 // Training data attributes:
-// cement, slag, ash, water, plasticizer, coarse, fine, age, strength
+// fixed acidity, volatile acidity, citric acid, residual sugar, chlorides,
+// free sulfur dioxide, total sulfur dioxide, density, pH, sulphates, alcohol, quality
 
-func trainConcreteCompressiveStrength() ([]byte, error) {
-	log.Info("Training for Concrete Compressive Strength")
+func Train() ([]byte, error) {
+	log.Info("Training for Wine Quality")
 	if err := readTrainingSet(); err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
 	}
@@ -35,7 +38,7 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 	}
 
 	mind, err := gomind.New(&gomind.ModelConfiguration{
-		NumberOfInputs:                    8,
+		NumberOfInputs:                    11,
 		NumberOfOutputs:                   1,
 		ModelType:                         "regression",
 		HiddenLayerActivationFunctionName: "leaky_relu",
@@ -50,8 +53,8 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 	var actuals []float64
 
 	for counter, dataPoint := range trainingSet {
-		input := dataPoint[:8]
-		output := dataPoint[8:]
+		input := dataPoint[:11]
+		output := dataPoint[11:]
 
 		mind.Train(input, output)
 
@@ -77,6 +80,10 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 
 func readTrainingSet() error {
 	log.Info("Reading training set")
+	filePath := whiteWineFilePath
+	if trainRedWine {
+		filePath = redWineFilePath
+	}
 	file, err := os.Open(filePath)
 	if err != nil {
 		return fmt.Errorf("error reading csv file: %v", err)
@@ -84,10 +91,10 @@ func readTrainingSet() error {
 
 	reader := csv.NewReader(bufio.NewReader(file))
 
-	// A 2D normalizer array which for all 9 attributes, stores
+	// A 2D normalizer array which for all 12 attributes, stores
 	// their min value, max value and difference of max - min.
 	normalizer = [][]float64{}
-	for i := 0; i < 9; i++ {
+	for i := 0; i < 12; i++ {
 		// Used 1000 as the initial value for max value and difference
 		// since no value in the trainingSet is larger than it.
 		normalizer = append(normalizer, []float64{1000, 0, 1000})
@@ -106,7 +113,7 @@ func readTrainingSet() error {
 
 		var dataPoint []float64
 
-		for i := 0; i <= 8; i++ {
+		for i := 0; i < 12; i++ {
 			val, err := strconv.ParseFloat(line[i], 64)
 			if err != nil {
 				log.Errorf("unable to parse: %v as float64", line[i])
@@ -127,6 +134,7 @@ func readTrainingSet() error {
 		}
 		trainingSet = append(trainingSet, dataPoint)
 	}
+	log.Info(normalizer)
 	return nil
 }
 

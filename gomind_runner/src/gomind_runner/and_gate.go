@@ -5,6 +5,7 @@ import (
 	"math/rand"
 
 	log "github.com/golang/glog"
+
 	"gomind_runner/gomind"
 )
 
@@ -14,7 +15,7 @@ func trainAndGate() ([]byte, error) {
 		NumberOfInputs:                    2,
 		NumberOfOutputs:                   1,
 		ModelType:                         "regression",
-		HiddenLayerActivationFunctionName: "leaky_relu",
+		HiddenLayerActivationFunctionName: "sigmoid",
 	})
 	if err != nil {
 		log.Info(err)
@@ -54,7 +55,7 @@ func trainAndGate() ([]byte, error) {
 	}
 
 	// log.Info("==================================================================")
-	// mind.Describe()
+	mind.Describe(false)
 
 	graphData["errors"] = errors
 	graphData["targets"] = targets

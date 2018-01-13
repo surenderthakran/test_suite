@@ -6,6 +6,8 @@ import (
 	"net/http"
 
 	log "github.com/golang/glog"
+
+	winequality "gomind_runner/trainers/wine_quality"
 )
 
 var (
@@ -21,8 +23,9 @@ func main() {
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
 
+		data, err := winequality.Train()
 		// data, err := trainConcreteCompressiveStrength()
-		data, err := trainAndGate()
+		// data, err := trainAndGate()
 		if err != nil {
 			log.Error(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
