@@ -126,6 +126,8 @@ func (n *Neuron) squash() float64 {
 		} else {
 			return n.netInput
 		}
+	} else if n.activation.Name() == "IDENTITY" {
+		return n.netInput
 	}
 	return 0
 }
@@ -137,6 +139,7 @@ func (n *Neuron) squash() float64 {
 // By applying the chain rule, https://en.wikipedia.org/wiki/Chain_rule
 // ∂Error/∂Input = ∂Error/∂Output * ∂Output/∂Input
 func (n *Neuron) CalculatePdErrorWrtTotalNetInputOfOutputNeuron(targetOutput float64) float64 {
+	// fmt.Println("=== calculating pdErrorWrtTotalNetInputOfOutputNeuron")
 	pdErrorWrtOutput := n.calculatePdErrorWrtOutput(targetOutput)
 	// fmt.Println("pdErrorWrtOutput: ", pdErrorWrtOutput)
 	dOutputWrtTotalNetInput := n.CalculateDerivativeOutputWrtTotalNetInput()
@@ -188,6 +191,8 @@ func (n *Neuron) CalculateDerivativeOutputWrtTotalNetInput() float64 {
 		} else {
 			return 1
 		}
+	} else if n.activation.Name() == "IDENTITY" {
+		return 1
 	}
 	return 0
 }

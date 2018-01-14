@@ -41,8 +41,9 @@ func Train() ([]byte, error) {
 		NumberOfInputs:                    11,
 		NumberOfOutputs:                   1,
 		ModelType:                         "regression",
-		LearningRate:                      0.1,
-		HiddenLayerActivationFunctionName: "sigmoid",
+		LearningRate:                      0.3,
+		HiddenLayerActivationFunctionName: "leaky_relu",
+		OutputLayerActivationFunctionName: "identity",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
@@ -53,21 +54,30 @@ func Train() ([]byte, error) {
 	var targets []float64
 	var actuals []float64
 
-	for _, dataPoint := range trainingSet {
+	for counter, dataPoint := range trainingSet {
 		input := dataPoint[:11]
 		output := dataPoint[11:]
 
 		mind.Train(input, output)
 
-		outputError := mind.CalculateError(output)
 		actual := mind.LastOutput()
+		outputError, err := mind.CalculateError(output)
+		if err != nil {
+			return nil, fmt.Errorf("error while training with sample: %v, input: %v, target: %v, actual: %v. %v", counter, input, output, actual, err)
+		}
 
-		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
 		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
-		errors = append(errors, outputError)
-		targets = append(targets, output...)
-		actuals = append(actuals, actual...)
+		// errors = append(errors, outputError)
+		// targets = append(targets, output...)
+		// actuals = append(actuals, actual...)
+
+		if counter > 10 {
+			errors = append(errors, outputError)
+			targets = append(targets, output...)
+			actuals = append(actuals, actual...)
+		}
 	}
 
 	mind.Describe(true)
@@ -135,7 +145,6 @@ func readTrainingSet() error {
 		}
 		trainingSet = append(trainingSet, dataPoint)
 	}
-	log.Info(normalizer)
 	return nil
 }
 

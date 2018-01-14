@@ -4,6 +4,7 @@ package gomind
 import (
 	"errors"
 	"fmt"
+	"math"
 	"math/rand"
 	"strings"
 	"time"
@@ -247,8 +248,8 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 			// We already have partial derivative of output neuron's error with respect to its total net input for each neuron from previous calculations.
 			// Also, the partial derivative of total net input of output neuron with respect to the output of the current hidden neuron (∂TotalNetInputToOutputNeuron/∂HiddenNeuronOutput),
 			// is the weight from the current hidden neuron to the current output neuron.
-			// fmt.Println("pdErrorWrtTotalNetInputOfOutputNeuron:", outputNeuron.pdErrorWrtTotalNetInputOfOutputNeuron)
-			// fmt.Println("weight:", outputNeuron.weights[neuronIndex])
+			// fmt.Println("pdErrorWrtTotalNetInputOfOutputNeuron:", outputNeuron.PdErrorWrtTotalNetInputOfOutputNeuron)
+			// fmt.Println("weight:", outputNeuron.Weight(neuronIndex))
 			dErrorWrtOutputOfHiddenNeuron += outputNeuron.PdErrorWrtTotalNetInputOfOutputNeuron * outputNeuron.Weight(neuronIndex)
 			// fmt.Println("===")
 		}
@@ -281,10 +282,10 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 			// The learning rate is a constant value chosen for a network to control the correction in
 			// a network's weight based on a sample.
 			// fmt.Println("weight:", weight)
-			// fmt.Println("learningRate:", learningRate)
+			// fmt.Println("learningRate:", network.learningRate)
 			// fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
 			neuron.SetNewWeight(weight-(network.learningRate*pdErrorWrtWeight), weightIndex)
-			// fmt.Println("new weight:", neuron.newWeights[weightIndex])
+			// fmt.Println("new weight:", weight-(network.learningRate*pdErrorWrtWeight))
 			// fmt.Println("===")
 		}
 
@@ -323,24 +324,19 @@ func (network *NeuralNetwork) updateWeights() {
 	}
 }
 
-// CalculateTotalError computes and returns the total error for the given training set.
-func (network *NeuralNetwork) CalculateTotalError(trainingSet [][][]float64) float64 {
-	totalError := float64(0)
-	for _, set := range trainingSet {
-		output := network.CalculateOutput(set[0])
-		_ = output // we don't need output here.
-		totalError += network.CalculateError(set[1])
-	}
-	return totalError
-}
-
 // CalculateError function generates the error value for the given target output against the network's last output.
-func (network *NeuralNetwork) CalculateError(targetOutput []float64) float64 {
-	error := float64(0)
+func (network *NeuralNetwork) CalculateError(targetOutput []float64) (float64, error) {
+	outputError := float64(0)
 	for index, neuron := range network.outputLayer.Neurons() {
-		error += neuron.CalculateError(targetOutput[index])
+		outputError += neuron.CalculateError(targetOutput[index])
 	}
-	return error
+	if math.IsInf(outputError, 1) || math.IsInf(outputError, -1) {
+		return outputError, errors.New("error in the output is too high.")
+	}
+	if math.IsNaN(outputError) {
+		return outputError, errors.New("error in the output is NaN.")
+	}
+	return outputError, nil
 }
 
 // Describe function prints the current state of the neural network and its components.

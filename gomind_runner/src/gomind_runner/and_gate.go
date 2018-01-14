@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"math/rand"
 
 	log "github.com/golang/glog"
@@ -44,12 +45,15 @@ func trainAndGate() ([]byte, error) {
 
 		mind.Train(input, output)
 
-		error := mind.CalculateError(output)
+		outputError, err := mind.CalculateError(output)
+		if err != nil {
+			return nil, fmt.Errorf("error while training: %v", err)
+		}
 		actual := mind.LastOutput()
 
-		// log.Infof("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", i, input, output, actual, error)
+		log.Infof("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", i, input, output, actual, outputError)
 
-		errors = append(errors, error)
+		errors = append(errors, outputError)
 		targets = append(targets, output...)
 		actuals = append(actuals, actual...)
 	}

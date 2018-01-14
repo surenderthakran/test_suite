@@ -55,7 +55,10 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 
 		mind.Train(input, output)
 
-		outputError := mind.CalculateError(output)
+		outputError, err := mind.CalculateError(output)
+		if err != nil {
+			return nil, fmt.Errorf("error while training: %v", err)
+		}
 		actual := mind.LastOutput()
 
 		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
