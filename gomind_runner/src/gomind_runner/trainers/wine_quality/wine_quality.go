@@ -11,12 +11,12 @@ import (
 
 	log "github.com/golang/glog"
 
+	"gomind_runner/common"
 	"gomind_runner/gomind"
 )
 
 var (
 	normalizeData     = true
-	normalizer        [][]float64
 	trainingSet       [][]float64
 	redWineFilePath   = "src/gomind_runner/trainers/wine_quality/winequality-red.csv"
 	whiteWineFilePath = "src/gomind_runner/trainers/wine_quality/winequality-white.csv"
@@ -34,7 +34,7 @@ func Train() ([]byte, error) {
 	}
 
 	if normalizeData {
-		normalizeTrainingSet()
+		trainingSet = common.LinearScaleNormalize(trainingSet)
 	}
 
 	mind, err := gomind.New(&gomind.ModelConfiguration{
@@ -102,15 +102,6 @@ func readTrainingSet() error {
 
 	reader := csv.NewReader(bufio.NewReader(file))
 
-	// A 2D normalizer array which for all 12 attributes, stores
-	// their min value, max value and difference of max - min.
-	normalizer = [][]float64{}
-	for i := 0; i < 12; i++ {
-		// Used 1000 as the initial value for max value and difference
-		// since no value in the trainingSet is larger than it.
-		normalizer = append(normalizer, []float64{1000, 0, 1000})
-	}
-
 	trainingSet = [][]float64{}
 
 	for {
@@ -132,36 +123,8 @@ func readTrainingSet() error {
 			}
 
 			dataPoint = append(dataPoint, val)
-
-			if normalizeData {
-				if val < normalizer[i][0] {
-					normalizer[i][0] = val
-				} else if val > normalizer[i][1] {
-					normalizer[i][1] = val
-				}
-
-				normalizer[i][2] = normalizer[i][1] - normalizer[i][0]
-			}
 		}
 		trainingSet = append(trainingSet, dataPoint)
 	}
 	return nil
-}
-
-func normalizeTrainingSet() {
-	log.Info("Normalizing training set")
-	for _, dataPoint := range trainingSet {
-		for j, value := range dataPoint {
-			dataPoint[j] = normalizeValue(value, j)
-		}
-	}
-	log.Info("Normalized training set")
-}
-
-// normalizeValue normalizes a value from a set using the following equation:
-// normalizedValue = (Value - MinValue)/(MaxValue - MinValue)
-// The goal is to have all the values in the range of 0 to 1.
-func normalizeValue(val float64, index int) float64 {
-	new := (val - normalizer[index][0]) / normalizer[index][2]
-	return new
 }
