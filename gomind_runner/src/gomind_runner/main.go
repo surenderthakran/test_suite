@@ -7,7 +7,8 @@ import (
 
 	log "github.com/golang/glog"
 
-	winequality "gomind_runner/trainers/wine_quality"
+	concrete_compressive_strength "gomind_runner/trainers/concrete_compressive_strength"
+	// winequality "gomind_runner/trainers/wine_quality"
 )
 
 var (
@@ -23,8 +24,8 @@ func main() {
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
 
-		data, err := winequality.Train()
-		// data, err := trainConcreteCompressiveStrength()
+		// data, err := winequality.Train()
+		data, err := concrete_compressive_strength.Train()
 		// data, err := trainAndGate()
 		if err != nil {
 			log.Error(err)

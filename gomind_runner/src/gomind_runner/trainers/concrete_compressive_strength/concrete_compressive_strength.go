@@ -1,4 +1,4 @@
-package main
+package concrete_compressive_strength
 
 import (
 	"bufio"
@@ -11,34 +11,40 @@ import (
 
 	log "github.com/golang/glog"
 
+	"gomind_runner/common"
 	"gomind_runner/gomind"
 )
 
 var (
 	normalizeData = true
-	normalizer    [][]float64
-	trainingSet   [][]float64
-	filePath      = "src/gomind_runner/data/concrete_compressive_strength.csv"
+	filePath      = "src/gomind_runner/trainers/concrete_compressive_strength/concrete_compressive_strength.csv"
 )
 
 // Training data attributes:
 // cement, slag, ash, water, plasticizer, coarse, fine, age, strength
 
-func trainConcreteCompressiveStrength() ([]byte, error) {
+func Train() ([]byte, error) {
 	log.Info("Training for Concrete Compressive Strength")
-	if err := readTrainingSet(); err != nil {
+	trainingSet, err := readTrainingSet()
+	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
 	}
 
 	if normalizeData {
-		normalizeTrainingSet()
+		// trainingSet, err = common.LinearScale(trainingSet, "-1to1")
+		trainingSet, err = common.GaussianNormalization(trainingSet)
+		if err != nil {
+			return nil, fmt.Errorf("unable to train: %v", err)
+		}
 	}
 
 	mind, err := gomind.New(&gomind.ModelConfiguration{
 		NumberOfInputs:                    8,
 		NumberOfOutputs:                   1,
 		ModelType:                         "regression",
+		LearningRate:                      0.3,
 		HiddenLayerActivationFunctionName: "leaky_relu",
+		OutputLayerActivationFunctionName: "identity",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
@@ -64,9 +70,15 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
 		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
-		errors = append(errors, outputError)
-		targets = append(targets, output...)
-		actuals = append(actuals, actual...)
+		// errors = append(errors, outputError)
+		// targets = append(targets, output...)
+		// actuals = append(actuals, actual...)
+
+		if counter > 3 {
+			errors = append(errors, outputError)
+			targets = append(targets, output...)
+			actuals = append(actuals, actual...)
+		}
 	}
 
 	mind.Describe(true)
@@ -78,25 +90,16 @@ func trainConcreteCompressiveStrength() ([]byte, error) {
 	return json.Marshal(graphData)
 }
 
-func readTrainingSet() error {
+func readTrainingSet() ([][]float64, error) {
 	log.Info("Reading training set")
+	trainingSet := [][]float64{}
+
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("error reading csv file: %v", err)
+		return trainingSet, fmt.Errorf("error reading csv file: %v", err)
 	}
 
 	reader := csv.NewReader(bufio.NewReader(file))
-
-	// A 2D normalizer array which for all 9 attributes, stores
-	// their min value, max value and difference of max - min.
-	normalizer = [][]float64{}
-	for i := 0; i < 9; i++ {
-		// Used 1000 as the initial value for max value and difference
-		// since no value in the trainingSet is larger than it.
-		normalizer = append(normalizer, []float64{1000, 0, 1000})
-	}
-
-	trainingSet = [][]float64{}
 
 	for {
 		line, error := reader.Read()
@@ -109,7 +112,7 @@ func readTrainingSet() error {
 
 		var dataPoint []float64
 
-		for i := 0; i <= 8; i++ {
+		for i := 0; i < 9; i++ {
 			val, err := strconv.ParseFloat(line[i], 64)
 			if err != nil {
 				log.Errorf("unable to parse: %v as float64", line[i])
@@ -117,36 +120,8 @@ func readTrainingSet() error {
 			}
 
 			dataPoint = append(dataPoint, val)
-
-			if normalizeData {
-				if val < normalizer[i][0] {
-					normalizer[i][0] = val
-				} else if val > normalizer[i][1] {
-					normalizer[i][1] = val
-				}
-
-				normalizer[i][2] = normalizer[i][1] - normalizer[i][0]
-			}
 		}
 		trainingSet = append(trainingSet, dataPoint)
 	}
-	return nil
-}
-
-func normalizeTrainingSet() {
-	log.Info("Normalizing training set")
-	for _, dataPoint := range trainingSet {
-		for j, value := range dataPoint {
-			dataPoint[j] = normalizeValue(value, j)
-		}
-	}
-	log.Info("Normalized training set")
-}
-
-// normalizeValue normalizes a value from a set using the following equation:
-// normalizedValue = (Value - MinValue)/(MaxValue - MinValue)
-// The goal is to have all the values in the range of 0 to 1.
-func normalizeValue(val float64, index int) float64 {
-	new := (val - normalizer[index][0]) / normalizer[index][2]
-	return new
+	return trainingSet, nil
 }
