@@ -17,7 +17,6 @@ import (
 
 var (
 	normalizeData     = true
-	trainingSet       [][]float64
 	redWineFilePath   = "src/gomind_runner/trainers/wine_quality/winequality-red.csv"
 	whiteWineFilePath = "src/gomind_runner/trainers/wine_quality/winequality-white.csv"
 	trainRedWine      = false
@@ -29,12 +28,17 @@ var (
 
 func Train() ([]byte, error) {
 	log.Info("Training for Wine Quality")
-	if err := readTrainingSet(); err != nil {
+	trainingSet, err := readTrainingSet()
+	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
 	}
 
 	if normalizeData {
-		trainingSet = common.LinearScaleNormalize(trainingSet)
+		// trainingSet, err = common.LinearScale(trainingSet, "-1to1")
+		trainingSet, err = common.GaussianNormalization(trainingSet)
+		if err != nil {
+			return nil, fmt.Errorf("unable to train: %v", err)
+		}
 	}
 
 	mind, err := gomind.New(&gomind.ModelConfiguration{
@@ -66,14 +70,14 @@ func Train() ([]byte, error) {
 			return nil, fmt.Errorf("error while training with sample: %v, input: %v, target: %v, actual: %v. %v", counter, input, output, actual, err)
 		}
 
-		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
 		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		// errors = append(errors, outputError)
 		// targets = append(targets, output...)
 		// actuals = append(actuals, actual...)
 
-		if counter > 10 {
+		if counter > 5 {
 			errors = append(errors, outputError)
 			targets = append(targets, output...)
 			actuals = append(actuals, actual...)
@@ -89,20 +93,20 @@ func Train() ([]byte, error) {
 	return json.Marshal(graphData)
 }
 
-func readTrainingSet() error {
+func readTrainingSet() ([][]float64, error) {
 	log.Info("Reading training set")
+	trainingSet := [][]float64{}
+
 	filePath := whiteWineFilePath
 	if trainRedWine {
 		filePath = redWineFilePath
 	}
 	file, err := os.Open(filePath)
 	if err != nil {
-		return fmt.Errorf("error reading csv file: %v", err)
+		return trainingSet, fmt.Errorf("error reading csv file: %v", err)
 	}
 
 	reader := csv.NewReader(bufio.NewReader(file))
-
-	trainingSet = [][]float64{}
 
 	for {
 		line, error := reader.Read()
@@ -126,5 +130,5 @@ func readTrainingSet() error {
 		}
 		trainingSet = append(trainingSet, dataPoint)
 	}
-	return nil
+	return trainingSet, nil
 }
