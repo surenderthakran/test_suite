@@ -1,4 +1,4 @@
-package main
+package xor_gate
 
 import (
 	"encoding/json"
@@ -10,8 +10,15 @@ import (
 	"gomind_runner/gomind"
 )
 
-func trainAndGate() ([]byte, error) {
-	log.Info("Training for AND Gate")
+func Train() ([]byte, error) {
+	log.Info("Training for XOR Gate")
+	trainingSet := [][][]float64{
+		[][]float64{[]float64{0, 0}, []float64{0}},
+		[][]float64{[]float64{0, 1}, []float64{1}},
+		[][]float64{[]float64{1, 0}, []float64{1}},
+		[][]float64{[]float64{1, 1}, []float64{0}},
+	}
+
 	mind, err := gomind.New(&gomind.ModelConfiguration{
 		NumberOfInputs:                    2,
 		NumberOfOutputs:                   1,
@@ -27,13 +34,6 @@ func trainAndGate() ([]byte, error) {
 	var errors []float64
 	var targets []float64
 	var actuals []float64
-
-	trainingSet := [][][]float64{
-		[][]float64{[]float64{0, 0}, []float64{0}},
-		[][]float64{[]float64{0, 1}, []float64{1}},
-		[][]float64{[]float64{1, 0}, []float64{1}},
-		[][]float64{[]float64{1, 1}, []float64{0}},
-	}
 
 	// mind.Describe()
 	// log.Info("==================================================================")
