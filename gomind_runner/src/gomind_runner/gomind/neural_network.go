@@ -142,14 +142,19 @@ func (network *NeuralNetwork) LastOutput() []float64 {
 }
 
 // Train function trains the neural network using the given set of inputs and outputs.
-func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) {
+func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) error {
 	// fmt.Println("trainingInput: ", trainingInput)
 	// fmt.Println("========== calculating output")
 	outputs := network.CalculateOutput(trainingInput)
 	// fmt.Println(outputs)
-	network.calculateNewOutputLayerWeights(outputs, trainingOutput)
-	network.calculateNewHiddenLayerWeights()
+	if err := network.calculateNewOutputLayerWeights(outputs, trainingOutput); err != nil {
+		return err
+	}
+	if err := network.calculateNewHiddenLayerWeights(); err != nil {
+		return err
+	}
 	network.updateWeights()
+	return nil
 }
 
 // calculateNewOutputLayerWeights function calculates new weights from the
@@ -161,7 +166,7 @@ func (network *NeuralNetwork) Train(trainingInput, trainingOutput []float64) {
 //
 // By applying the chain rule, https://en.wikipedia.org/wiki/Chain_rule
 // ∂TotalError/∂OutputNeuronWeight = ∂TotalError/∂TotalNetInputToOutputNeuron * ∂TotalNetInputToOutputNeuron/∂OutputNeuronWeight
-func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutputs []float64) {
+func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutputs []float64) error {
 	// fmt.Println("========== calculating output layer weights")
 	for neuronIndex, neuron := range network.outputLayer.Neurons() {
 		// fmt.Println("===== output neuron")
@@ -195,8 +200,12 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 			// fmt.Println("weight:", weight)
 			// fmt.Println("learningRate:", learningRate)
 			// fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
-			neuron.SetNewWeight(weight-(network.learningRate*pdErrorWrtWeight), weightIndex)
-			// fmt.Println("new weight:", neuron.newWeights[weightIndex])
+			newWeight := weight - (network.learningRate * pdErrorWrtWeight)
+			// fmt.Println("new weight:", newWeight)
+			if math.IsInf(newWeight, 1) || math.IsInf(newWeight, -1) || math.IsNaN(newWeight) {
+				return fmt.Errorf("invalid new weight: %v for output layer neuron.", newWeight)
+			}
+			neuron.SetNewWeight(newWeight, weightIndex)
 		}
 
 		// By applying the chain rule, we can define the partial differential of total error with respect to the bias to the output neuron as:
@@ -215,10 +224,15 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 		// The learning rate is a constant value chosen for a network to control the correction in
 		// a network's bias based on a sample.
 		// fmt.Println("bias weight:", neuron.bias)
-		neuron.SetNewBias(neuron.Bias() - (network.learningRate * pdErrorWrtBias))
-		// fmt.Println("new bias weight:", neuron.newBias)
+		newBias := neuron.Bias() - (network.learningRate * pdErrorWrtBias)
+		// fmt.Println("new bias:", newBias)
+		if math.IsInf(newBias, 1) || math.IsInf(newBias, -1) || math.IsNaN(newBias) {
+			return fmt.Errorf("invalid new bias: %v for output layer neurons.", newBias)
+		}
+		neuron.SetNewBias(newBias)
 	}
 	// fmt.Println("==========")
+	return nil
 }
 
 // calculateNewHiddenLayerWeights function calculates new weights from the input
@@ -230,7 +244,7 @@ func (network *NeuralNetwork) calculateNewOutputLayerWeights(outputs, targetOutp
 //
 // By applying the chain rule, https://en.wikipedia.org/wiki/Chain_rule
 // ∂TotalError/∂HiddenNeuronWeight = ∂TotalError/∂HiddenNeuronOutput * ∂HiddenNeuronOutput/∂TotalNetInputToHiddenNeuron * ∂TotalNetInputToHiddenNeuron/∂HiddenNeuronWeight
-func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
+func (network *NeuralNetwork) calculateNewHiddenLayerWeights() error {
 	// fmt.Println("========== calculating hidden layer weights")
 	// First we calculate the derivative of total error with respect to the output of each hidden neuron.
 	// i.e. ∂TotalError/∂HiddenNeuronOutput.
@@ -284,8 +298,12 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 			// fmt.Println("weight:", weight)
 			// fmt.Println("learningRate:", network.learningRate)
 			// fmt.Println("adjustment:", learningRate*pdErrorWrtWeight)
-			neuron.SetNewWeight(weight-(network.learningRate*pdErrorWrtWeight), weightIndex)
-			// fmt.Println("new weight:", weight-(network.learningRate*pdErrorWrtWeight))
+			newWeight := weight - (network.learningRate * pdErrorWrtWeight)
+			// fmt.Println("new weight:", newWeight)
+			if math.IsInf(newWeight, 1) || math.IsInf(newWeight, -1) || math.IsNaN(newWeight) {
+				return fmt.Errorf("invalid new weight: %v for hidden layer neuron.", newWeight)
+			}
+			neuron.SetNewWeight(newWeight, weightIndex)
 			// fmt.Println("===")
 		}
 
@@ -305,11 +323,16 @@ func (network *NeuralNetwork) calculateNewHiddenLayerWeights() {
 		// The learning rate is a constant value chosen for a network to control the correction in
 		// a network's bias based on a sample.
 		// fmt.Println("bias weight:", neuron.bias)
-		neuron.SetNewBias(neuron.Bias() - (network.learningRate * pdErrorWrtBias))
-		// fmt.Println("new bias weight:", neuron.newBias)
+		newBias := neuron.Bias() - (network.learningRate * pdErrorWrtBias)
+		// fmt.Println("new bias:", newBias)
+		if math.IsInf(newBias, 1) || math.IsInf(newBias, -1) || math.IsNaN(newBias) {
+			return fmt.Errorf("invalid new bias: %v for hidden layer neurons.", newBias)
+		}
+		neuron.SetNewBias(newBias)
 		// fmt.Println("=====")
 	}
 	// fmt.Println("==========")
+	return nil
 }
 
 // updateWeights updates the weights and biases for the hidden and output layer
@@ -330,11 +353,8 @@ func (network *NeuralNetwork) CalculateError(targetOutput []float64) (float64, e
 	for index, neuron := range network.outputLayer.Neurons() {
 		outputError += neuron.CalculateError(targetOutput[index])
 	}
-	if math.IsInf(outputError, 1) || math.IsInf(outputError, -1) {
-		return outputError, errors.New("error in the output is too high.")
-	}
-	if math.IsNaN(outputError) {
-		return outputError, errors.New("error in the output is NaN.")
+	if math.IsInf(outputError, 1) || math.IsInf(outputError, -1) || math.IsNaN(outputError) {
+		return outputError, fmt.Errorf("invalid error value: %v in output.", outputError)
 	}
 	return outputError, nil
 }

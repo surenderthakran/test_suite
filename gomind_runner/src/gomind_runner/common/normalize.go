@@ -50,36 +50,42 @@ func LinearScale(dataset [][]float64, outputRange string) ([][]float64, error) {
 	return result, nil
 }
 
+// also called z-score normalization
 func GaussianNormalization(dataset [][]float64) ([][]float64, error) {
 	numberOfSamples := float64(len(dataset))
 
-	var means []float64
+	var sums []float64
 	for _, sample := range dataset {
 		for index, value := range sample {
-			if len(means) < index+1 {
-				means = append(means, value)
+			if len(sums) < index+1 {
+				sums = append(sums, value)
 			} else {
-				means[index] += value
+				sums[index] += value
 			}
 		}
 	}
-	for index, sum := range means {
-		means[index] = sum / numberOfSamples
+
+	var means []float64
+	for _, sum := range sums {
+		means = append(means, sum/numberOfSamples)
 	}
 	log.Info(means)
 
-	var standardDeviation []float64
+	var sumOfValueMinusMeanSquared []float64
 	for _, sample := range dataset {
 		for index, value := range sample {
-			if len(standardDeviation) < index+1 {
-				standardDeviation = append(standardDeviation, math.Pow((value-means[index]), 2))
+			if len(sumOfValueMinusMeanSquared) < index+1 {
+				sumOfValueMinusMeanSquared = append(sumOfValueMinusMeanSquared, math.Pow((value-means[index]), 2))
 			} else {
-				standardDeviation[index] += math.Pow((value - means[index]), 2)
+				sumOfValueMinusMeanSquared[index] += math.Pow((value - means[index]), 2)
 			}
 		}
 	}
-	for index, deviation := range standardDeviation {
-		standardDeviation[index] = math.Sqrt(deviation)
+
+	var standardDeviation []float64
+	for _, sum := range sumOfValueMinusMeanSquared {
+		variance := sum / (numberOfSamples - 1)
+		standardDeviation = append(standardDeviation, math.Sqrt(variance))
 	}
 	log.Info(standardDeviation)
 

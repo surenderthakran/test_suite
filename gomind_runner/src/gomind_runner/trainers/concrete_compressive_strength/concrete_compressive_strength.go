@@ -43,7 +43,7 @@ func Train() ([]byte, error) {
 		NumberOfOutputs:                   1,
 		ModelType:                         "regression",
 		LearningRate:                      0.3,
-		HiddenLayerActivationFunctionName: "leaky_relu",
+		HiddenLayerActivationFunctionName: "relu",
 		OutputLayerActivationFunctionName: "identity",
 	})
 	if err != nil {
@@ -59,16 +59,19 @@ func Train() ([]byte, error) {
 		input := dataPoint[:8]
 		output := dataPoint[8:]
 
-		mind.Train(input, output)
+		if err := mind.Train(input, output); err != nil {
+			return nil, fmt.Errorf("error while training: %v", err)
+		}
 
 		outputError, err := mind.CalculateError(output)
 		if err != nil {
+			mind.Describe(true)
 			return nil, fmt.Errorf("error while training: %v", err)
 		}
 		actual := mind.LastOutput()
 
-		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
-		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
+		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		// errors = append(errors, outputError)
 		// targets = append(targets, output...)
