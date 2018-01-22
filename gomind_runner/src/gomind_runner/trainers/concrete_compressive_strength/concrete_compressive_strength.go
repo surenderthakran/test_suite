@@ -39,8 +39,9 @@ func Train() ([]byte, error) {
 	}
 
 	mind, err := gomind.New(&gomind.ModelConfiguration{
-		NumberOfInputs:                    8,
-		NumberOfOutputs:                   1,
+		NumberOfInputs:  8,
+		NumberOfOutputs: 1,
+		// NumberOfHiddenLayerNeurons:        10,
 		ModelType:                         "regression",
 		LearningRate:                      0.3,
 		HiddenLayerActivationFunctionName: "relu",
@@ -60,18 +61,18 @@ func Train() ([]byte, error) {
 		output := dataPoint[8:]
 
 		if err := mind.Train(input, output); err != nil {
-			return nil, fmt.Errorf("error while training: %v", err)
+			return nil, fmt.Errorf("error while training for input: %v and target: %v. %v", input, output, err)
 		}
 
+		actual := mind.LastOutput()
 		outputError, err := mind.CalculateError(output)
 		if err != nil {
 			mind.Describe(true)
-			return nil, fmt.Errorf("error while training: %v", err)
+			return nil, fmt.Errorf("error while calculating error for input: %v, target: %v and actual: %v. %v", input, output, actual, err)
 		}
-		actual := mind.LastOutput()
 
-		// fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
-		fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
+		fmt.Printf("Index: %v, Target: %v, Actual: %v, Error: %v \n", counter, output, actual, outputError)
+		// fmt.Printf("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", counter, input, output, actual, outputError)
 
 		// errors = append(errors, outputError)
 		// targets = append(targets, output...)
