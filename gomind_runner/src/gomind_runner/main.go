@@ -6,9 +6,9 @@ import (
 
 	log "github.com/golang/glog"
 
-	concrete_compressive_strength "gomind_runner/trainers/concrete_compressive_strength"
+	// concrete_compressive_strength "gomind_runner/trainers/concrete_compressive_strength"
 	// winequality "gomind_runner/trainers/wine_quality"
-	// xor_gate "gomind_runner/trainers/xor_gate"
+	xor_gate "gomind_runner/trainers/xor_gate"
 )
 
 var (
@@ -24,9 +24,9 @@ func main() {
 	http.HandleFunc("/train", func(w http.ResponseWriter, r *http.Request) {
 		log.Info("A new /train request received!")
 
-		data, err := concrete_compressive_strength.Train()
+		// data, err := concrete_compressive_strength.Train()
 		// data, err := winequality.Train()
-		// data, err := xor_gate.Train()
+		data, err := xor_gate.Train()
 		if err != nil {
 			log.Error(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)

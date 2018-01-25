@@ -22,8 +22,10 @@ func Train() ([]byte, error) {
 	mind, err := gomind.New(&gomind.ModelConfiguration{
 		NumberOfInputs:                    2,
 		NumberOfOutputs:                   1,
+		NumberOfHiddenLayerNeurons:        16,
 		ModelType:                         "regression",
-		HiddenLayerActivationFunctionName: "sigmoid",
+		HiddenLayerActivationFunctionName: "relu",
+		OutputLayerActivationFunctionName: "sigmoid",
 	})
 	if err != nil {
 		log.Info(err)
@@ -38,20 +40,26 @@ func Train() ([]byte, error) {
 	// mind.Describe()
 	// log.Info("==================================================================")
 
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 500; i++ {
 		rand := rand.Intn(4)
 		input := trainingSet[rand][0]
 		output := trainingSet[rand][1]
 
 		mind.Train(input, output)
 
+		actual := mind.LastOutput()
 		outputError, err := mind.CalculateError(output)
 		if err != nil {
-			return nil, fmt.Errorf("error while training: %v", err)
+			mind.Describe(true)
+			return nil, fmt.Errorf("error while calculating error for input: %v, target: %v and actual: %v. %v", input, output, actual, err)
 		}
-		actual := mind.LastOutput()
+		// outputAccuracy, err := mind.CalculateAccuracy(output)
+		// if err != nil {
+		// 	mind.Describe(true)
+		// 	return nil, fmt.Errorf("error while calculating error for input: %v, target: %v and actual: %v. %v", input, output, actual, err)
+		// }
 
-		log.Infof("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v \n", i, input, output, actual, outputError)
+		// log.Infof("Index: %v, Input: %v, Target: %v, Actual: %v, Error: %v, Accuracy: %v\n", i, input, output, actual, outputError, outputAccuracy)
 
 		errors = append(errors, outputError)
 		targets = append(targets, output...)

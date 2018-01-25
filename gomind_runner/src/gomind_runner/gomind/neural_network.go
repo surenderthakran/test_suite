@@ -359,6 +359,12 @@ func (network *NeuralNetwork) CalculateError(targetOutput []float64) (float64, e
 	return outputError, nil
 }
 
+// CalculateAccuracy function calculates the accuracy for the given target output against the network's last output.
+// We use the binary accuracy method to calculate accuracy.
+// func (network *NeuralNetwork) CalculateAccuracy(targetOutput []float64) (float64, error) {
+// return K.mean(K.equal(y_true, K.round(y_pred)), axis=-1)
+// }
+
 // Describe function prints the current state of the neural network and its components.
 func (network *NeuralNetwork) Describe(showNeurons bool) {
 	fmt.Println(fmt.Sprintf("Input Layer: (No of nodes: %v)", network.model.NumberOfInputs))
