@@ -16,6 +16,6 @@ model.compile(loss='mean_squared_error',
               optimizer='adam',
               metrics=['binary_accuracy'])
 
-model.fit(training_data, target_data, nb_epoch=4, verbose=2)
+model.fit(training_data, target_data, epochs=20, verbose=2)
 
 print model.predict(training_data).round()
