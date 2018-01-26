@@ -28,8 +28,7 @@ func Train() ([]byte, error) {
 		OutputLayerActivationFunctionName: "sigmoid",
 	})
 	if err != nil {
-		log.Info(err)
-		return nil, err
+		return nil, fmt.Errorf("unable to train. %v", err)
 	}
 
 	graphData := make(map[string][]float64)
@@ -45,7 +44,9 @@ func Train() ([]byte, error) {
 		input := trainingSet[rand][0]
 		output := trainingSet[rand][1]
 
-		mind.Train(input, output)
+		if err := mind.LearnSample(input, output); err != nil {
+			return nil, fmt.Errorf("error while learning from sample input: %v, target: %v. %v", input, output, err)
+		}
 
 		actual := mind.LastOutput()
 		outputError, err := mind.CalculateError(output)

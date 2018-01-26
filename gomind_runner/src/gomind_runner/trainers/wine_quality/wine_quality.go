@@ -34,8 +34,8 @@ func Train() ([]byte, error) {
 	}
 
 	if normalizeData {
-		// trainingSet, err = common.LinearScale(trainingSet, "-1to1")
-		trainingSet, err = common.GaussianNormalization(trainingSet)
+		trainingSet, err = common.LinearScale(trainingSet, "0to1")
+		// trainingSet, err = common.GaussianNormalization(trainingSet)
 		if err != nil {
 			return nil, fmt.Errorf("unable to train: %v", err)
 		}
@@ -47,7 +47,7 @@ func Train() ([]byte, error) {
 		ModelType:                         "regression",
 		LearningRate:                      0.3,
 		HiddenLayerActivationFunctionName: "leaky_relu",
-		OutputLayerActivationFunctionName: "identity",
+		OutputLayerActivationFunctionName: "sigmoid",
 	})
 	if err != nil {
 		return nil, fmt.Errorf("unable to train: %v", err)
@@ -62,7 +62,9 @@ func Train() ([]byte, error) {
 		input := dataPoint[:11]
 		output := dataPoint[11:]
 
-		mind.Train(input, output)
+		if err := mind.LearnSample(input, output); err != nil {
+			return nil, fmt.Errorf("error while learning from sample input: %v, target: %v. %v", input, output, err)
+		}
 
 		actual := mind.LastOutput()
 		outputError, err := mind.CalculateError(output)
