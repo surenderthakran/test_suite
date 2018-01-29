@@ -14,7 +14,7 @@ red = pd.read_csv(dir_path + "/winequality-red.csv", sep=';')
 # Read in white wine data
 white = pd.read_csv(dir_path + "/winequality-white.csv", sep=';')
 
-import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
 
 # Add `type` column to `red` with value 1
 red['type'] = 1
@@ -50,10 +50,10 @@ model.get_config()
 model.get_weights()
 
 model.compile(loss='binary_crossentropy',
-              optimizer='adam',
+              optimizer='sgd',
               metrics=['accuracy'])
 
-whole = False
+whole = True
 if whole:
     # Define the scaler
     scaler = StandardScaler().fit(X)
