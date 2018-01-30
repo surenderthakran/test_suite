@@ -23,7 +23,6 @@ func Train() ([]byte, error) {
 		NumberOfInputs:                    2,
 		NumberOfOutputs:                   1,
 		NumberOfHiddenLayerNeurons:        16,
-		ModelType:                         "regression",
 		HiddenLayerActivationFunctionName: "relu",
 		OutputLayerActivationFunctionName: "sigmoid",
 	})

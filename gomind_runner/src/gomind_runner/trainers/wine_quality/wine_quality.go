@@ -44,7 +44,6 @@ func Train() ([]byte, error) {
 	mind, err := gomind.New(&gomind.ModelConfiguration{
 		NumberOfInputs:                    11,
 		NumberOfOutputs:                   1,
-		ModelType:                         "regression",
 		LearningRate:                      0.3,
 		HiddenLayerActivationFunctionName: "leaky_relu",
 		OutputLayerActivationFunctionName: "sigmoid",
