@@ -39,6 +39,6 @@ func main() {
 
 	http.Handle("/", http.StripPrefix("/", staticFs))
 
-	log.Info("Starting HTTP Server of port 18550...")
+	log.Info("Starting HTTP Server on port 18550...")
 	log.Fatal(http.ListenAndServe(":18550", nil))
 }

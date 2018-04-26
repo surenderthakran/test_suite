@@ -1,12 +1,12 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', () => {
   trainNetwork();
 });
 
 function trainNetwork() {
-  var myHeaders = new Headers();
-  var myRequest = new Request(
+  const myHeaders = new Headers();
+  const myRequest = new Request(
     window.location.origin + '/train',
     {
       method: 'GET',
@@ -17,7 +17,7 @@ function trainNetwork() {
   );
 
   fetch(myRequest)
-  .then(function(response) {
+  .then((response) => {
     console.log(response);
     if(response.ok) {
       return response.json();
@@ -25,26 +25,26 @@ function trainNetwork() {
       throw Error(response.statusText);
     }
   })
-  .then(function(data) {
+  .then((data) => {
     console.log(data);
     document.getElementById("status").textContent = "Training Complete!"
     drawChart(data);
   })
-  .catch(function(err) {
+  .catch((err) => {
     document.getElementById("status").textContent = "Training Failed!"
     console.error(err);
   });
 }
 
 function drawChart(data) {
-  var series = [];
-  for (var key in data) {
+  const series = [];
+  for (let key in data) {
     series.push({
       name: key,
       data: data[key],
-    })
+    });
   }
-  var myChart = Highcharts.chart('container', {
+  const myChart = Highcharts.chart('container', {
     title: {
       text: 'ANN Output Chart'
     },
