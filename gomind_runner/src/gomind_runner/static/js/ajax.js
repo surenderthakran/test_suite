@@ -1,6 +1,6 @@
 'use strict';
 
-window.Ajax = class {
+window.Library.Ajax = class {
   static train() {
     return new Promise((resolve, reject) => {
       const myHeaders = new Headers();

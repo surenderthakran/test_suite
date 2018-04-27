@@ -1,12 +1,15 @@
 'use strict';
 
-(function () {
+(() => {
   document.addEventListener('DOMContentLoaded', () => {
-    trainNetwork();
+    document.getElementById('train').addEventListener('click', () => {
+      trainNetwork();
+    });
   });
 
   function trainNetwork() {
-    Ajax.train().then((data) => {
+    Status.message('Training...');
+    window.Library.Ajax.train().then((data) => {
       console.log(data);
       Status.message('Training Complete!');
       Chart.draw(data);

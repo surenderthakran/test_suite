@@ -2,14 +2,19 @@
 <html>
   <head>
     <title>GoMind</title>
-    <script src="/js/ajax.js"></script>
-    <script src="/js/chart.js"></script>
-    <script src="/js/index.js"></script>
-    <script src="/js/status.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+      debugger;
+      window.Library = {};
+    </script>
+    <script defer src="/js/ajax.js"></script>
+    <script defer src="/js/chart.js"></script>
+    <script defer src="/js/index.js"></script>
+    <script defer src="/js/status.js"></script>
+    <script defer src="https://code.highcharts.com/highcharts.js"></script>
   </head>
   <body>
-    <p id="status">Training...</p>
+    <button id="train" name="train">Train</button>
+    <p id="status"></p>
     <div id="container" style="width:1200%; height:600px;"></div>
   </body>
 </html>
