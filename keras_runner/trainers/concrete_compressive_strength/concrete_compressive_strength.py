@@ -32,7 +32,7 @@ def run():
 
   pred = model.predict(input_data)
 
-  pred = map(lambda x: x[0], pred)
+  pred = [x[0] for x in pred]
 
   print(pd.concat([output_data, pd.Series(pred)], axis=1))
 
