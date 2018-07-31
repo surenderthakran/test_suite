@@ -8,12 +8,24 @@ import (
 	"time"
 
 	"gomind_runner/gomind/activation"
+	"gomind_runner/gomind/layer"
 	"gomind_runner/gomind/network"
 )
 
 const (
 	defaultActivationFunction = "LINEAR"
 )
+
+type NeuralNetworkInterface interface {
+	CalculateOutput(input []float64) []float64
+	LastOutput() []float64
+	HiddenLayer() *layer.Layer
+	OutputLayer() *layer.Layer
+	CalculateNewOutputLayerWeights(outputs, targetOutputs []float64) error
+	CalculateNewHiddenLayerWeights() error
+	UpdateWeights()
+	CalculateError(targetOutput []float64) (float64, error)
+}
 
 // Model type defines the neural network's architecture and metadata.
 type Model struct {
@@ -23,7 +35,7 @@ type Model struct {
 	numberOfOutputs                   int
 	outputLayerActivationFunctionName string
 	learningRate                      float64
-	network                           *network.NeuralNetwork
+	network                           NeuralNetworkInterface
 }
 
 // ModelConfiguration type defines the network configuration template filled by external code while creating a new model.
@@ -111,11 +123,14 @@ func New(configuration *ModelConfiguration) (*Model, error) {
 	}
 	model.numberOfOutputs = configuration.NumberOfOutputs
 
-	model.learningRate = 0.5
-	if configuration.LearningRate <= 0 || configuration.LearningRate > 1 {
-		return nil, errors.New("LearningRate cannot be less than or equals to 0 or greater than 1.")
+	if configuration.LearningRate < 0 || configuration.LearningRate > 1 {
+		return nil, errors.New("LearningRate cannot be less than 0 or greater than 1.")
+	} else if configuration.LearningRate == 0 {
+		model.learningRate = 0.5
+		fmt.Println("Using default learning rate 0.5")
+	} else {
+		model.learningRate = configuration.LearningRate
 	}
-	model.learningRate = configuration.LearningRate
 
 	model.numberOfHiddenNeurons = configuration.NumberOfHiddenLayerNeurons
 	if model.numberOfHiddenNeurons == 0 {
@@ -130,7 +145,7 @@ func New(configuration *ModelConfiguration) (*Model, error) {
 	}
 
 	model.outputLayerActivationFunctionName = activation.ValidFunction(configuration.OutputLayerActivationFunctionName)
-	if model.hiddenLayerActivationFunctionName == "" {
+	if model.outputLayerActivationFunctionName == "" {
 		model.outputLayerActivationFunctionName = defaultActivationFunction
 		fmt.Println("Estimated Ideal Activation Function for Output Layer Neurons: ", model.outputLayerActivationFunctionName)
 	}
