@@ -1,4 +1,4 @@
-package main;
+package com.surenderthakran;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -14,20 +14,10 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-// The tutorial can be found just here on the SSaurel's Blog :
-// https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
+import com.surenderthakran.constants.ServerConstants;
+
 // Each Client Connection will be managed in a dedicated Thread
 public class JavaHTTPServer implements Runnable{
-
-	static final File WEB_ROOT = new File("./web");
-	static final String DEFAULT_FILE = "index.html";
-	static final String FILE_NOT_FOUND = "404.html";
-	static final String METHOD_NOT_SUPPORTED = "not_supported.html";
-	// port to listen connection
-	static final int PORT = 8080;
-
-	// verbose mode
-	static final boolean verbose = true;
 
 	// Client Connection via Socket Class
 	private Socket connect;
@@ -37,26 +27,21 @@ public class JavaHTTPServer implements Runnable{
 	}
 
 	public static void main(String[] args) {
-    System.out.println("inside main()");
 		try {
-			ServerSocket serverConnect = new ServerSocket(PORT);
-			System.out.println("Server started.\nListening for connections on port : " + PORT + " ...\n");
+			ServerSocket serverConnect = new ServerSocket(ServerConstants.PORT);
+			System.out.println("Server started.\nListening for connections on port : " + ServerConstants.PORT + " ...\n");
 
 			// we listen until user halts server execution
 			while (true) {
-        System.out.println("1");
 				JavaHTTPServer myServer = new JavaHTTPServer(serverConnect.accept());
 
-        System.out.println("2");
-				if (verbose) {
+				if (ServerConstants.verbose) {
 					System.out.println("Connection opened. (" + new Date() + ")");
 				}
 
-        System.out.println("3");
 				// create dedicated thread to manage the client connection
 				Thread thread = new Thread(myServer);
 				thread.start();
-        System.out.println("4");
 			}
 
 		} catch (IOException e) {
@@ -93,12 +78,12 @@ public class JavaHTTPServer implements Runnable{
 			// we support only GET and HEAD methods, we check
 			if (!method.equals("GET")  &&  !method.equals("HEAD")) {
         System.out.println("Method not supported");
-				if (verbose) {
+				if (ServerConstants.verbose) {
 					System.out.println("501 Not Implemented : " + method + " method.");
 				}
 
 				// we return the not supported file to the client
-				File file = new File(WEB_ROOT, METHOD_NOT_SUPPORTED);
+				File file = new File(ServerConstants.WEB_ROOT, ServerConstants.METHOD_NOT_SUPPORTED);
 				int fileLength = (int) file.length();
 				String contentMimeType = "text/html";
 				//read content to return to client
@@ -106,7 +91,7 @@ public class JavaHTTPServer implements Runnable{
 
 				// we send HTTP Headers with data to client
 				out.println("HTTP/1.1 501 Not Implemented");
-				out.println("Server: Java HTTP Server from SSaurel : 1.0");
+				out.println("Server: Java HTTP Server : 1.0");
 				out.println("Date: " + new Date());
 				out.println("Content-type: " + contentMimeType);
 				out.println("Content-length: " + fileLength);
@@ -120,11 +105,11 @@ public class JavaHTTPServer implements Runnable{
         System.out.println("Method supported");
 				// GET or HEAD method
 				if (fileRequested.endsWith("/")) {
-					fileRequested += DEFAULT_FILE;
+					fileRequested += ServerConstants.DEFAULT_FILE;
 				}
         System.out.println("fileRequested: " + fileRequested);
 
-				File file = new File(WEB_ROOT, fileRequested);
+				File file = new File(ServerConstants.WEB_ROOT, fileRequested);
 				int fileLength = (int) file.length();
 				String content = getContentType(fileRequested);
 
@@ -134,7 +119,7 @@ public class JavaHTTPServer implements Runnable{
 
 					// send HTTP Headers
 					out.println("HTTP/1.1 200 OK");
-					out.println("Server: Java HTTP Server from SSaurel : 1.0");
+					out.println("Server: Java HTTP Server : 1.0");
 					out.println("Date: " + new Date());
 					out.println("Content-type: " + content);
 					out.println("Content-length: " + fileLength);
@@ -145,7 +130,7 @@ public class JavaHTTPServer implements Runnable{
 					dataOut.flush();
 				}
 
-				if (verbose) {
+				if (ServerConstants.verbose) {
 					System.out.println("File " + fileRequested + " of type " + content + " returned");
 				}
 
@@ -170,7 +155,7 @@ public class JavaHTTPServer implements Runnable{
 				System.err.println("Error closing stream : " + e.getMessage());
 			}
 
-			if (verbose) {
+			if (ServerConstants.verbose) {
 				System.out.println("Connection closed.\n");
 			}
 		}
@@ -205,7 +190,7 @@ public class JavaHTTPServer implements Runnable{
 
 	private void fileNotFound(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException {
     System.out.println("inside fileNotFound()");
-		File file = new File(WEB_ROOT, FILE_NOT_FOUND);
+		File file = new File(ServerConstants.WEB_ROOT, ServerConstants.FILE_NOT_FOUND);
 		int fileLength = (int) file.length();
 		String content = "text/html";
 		byte[] fileData = readFileData(file, fileLength);
@@ -221,7 +206,7 @@ public class JavaHTTPServer implements Runnable{
 		dataOut.write(fileData, 0, fileLength);
 		dataOut.flush();
 
-		if (verbose) {
+		if (ServerConstants.verbose) {
 			System.out.println("File " + fileRequested + " not found");
 		}
 	}
