@@ -1,2 +1,3 @@
-./src/JavaHTTPServer.java
+./src/Server.java
 ./src/constants/ServerConstants.java
+./src/handlers/web/StaticFileHandler.java

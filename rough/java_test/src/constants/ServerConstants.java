@@ -11,6 +11,6 @@ public class ServerConstants {
   // port to listen connection
 	public static final int PORT = 8080;
 
-	// verbose mode
-	public static final boolean verbose = true;
+	// verbose logging
+	public static final boolean LOGGING_VERBOSE = true;
 }

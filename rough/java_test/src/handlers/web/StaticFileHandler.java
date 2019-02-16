@@ -1,4 +1,4 @@
-package com.surenderthakran;
+package com.surenderthakran.handlers.web;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -6,65 +6,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.surenderthakran.constants.ServerConstants;
 
-// Each Client Connection will be managed in a dedicated Thread
-public class JavaHTTPServer implements Runnable{
+public class StaticFileHandler {
+  public static void handle(BufferedReader in, PrintWriter out, BufferedOutputStream dataOut) {
+    String fileRequested = null;
 
-	// Client Connection via Socket Class
-	private Socket connect;
-
-	public JavaHTTPServer(Socket c) {
-		connect = c;
-	}
-
-	public static void main(String[] args) {
-		try {
-			ServerSocket serverConnect = new ServerSocket(ServerConstants.PORT);
-			System.out.println("Server started.\nListening for connections on port : " + ServerConstants.PORT + " ...\n");
-
-			// we listen until user halts server execution
-			while (true) {
-				JavaHTTPServer myServer = new JavaHTTPServer(serverConnect.accept());
-
-				if (ServerConstants.verbose) {
-					System.out.println("Connection opened. (" + new Date() + ")");
-				}
-
-				// create dedicated thread to manage the client connection
-				Thread thread = new Thread(myServer);
-				thread.start();
-			}
-
-		} catch (IOException e) {
-			System.err.println("Server Connection error : " + e.getMessage());
-		}
-	}
-
-	@Override
-	public void run() {
-    System.out.println("inside run()");
-		// we manage our particular client connection
-		BufferedReader in = null; PrintWriter out = null; BufferedOutputStream dataOut = null;
-		String fileRequested = null;
-
-		try {
-			// we read characters from the client via input stream on the socket
-			in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
-			// we get character output stream to client (for headers)
-			out = new PrintWriter(connect.getOutputStream());
-			// get binary output stream to client (for requested data)
-			dataOut = new BufferedOutputStream(connect.getOutputStream());
-
-			// get first line of the request from the client
+    try {
+      // get first line of the request from the client
 			String input = in.readLine();
       System.out.println("input: " + input);
 			// we parse the request with a string tokenizer
@@ -78,7 +32,7 @@ public class JavaHTTPServer implements Runnable{
 			// we support only GET and HEAD methods, we check
 			if (!method.equals("GET")  &&  !method.equals("HEAD")) {
         System.out.println("Method not supported");
-				if (ServerConstants.verbose) {
+				if (ServerConstants.LOGGING_VERBOSE) {
 					System.out.println("501 Not Implemented : " + method + " method.");
 				}
 
@@ -130,40 +84,22 @@ public class JavaHTTPServer implements Runnable{
 					dataOut.flush();
 				}
 
-				if (ServerConstants.verbose) {
+				if (ServerConstants.LOGGING_VERBOSE) {
 					System.out.println("File " + fileRequested + " of type " + content + " returned");
 				}
-
-			}
-
-		} catch (FileNotFoundException fnfe) {
-			try {
+      }
+    } catch (FileNotFoundException fnfe) {
+      try {
 				fileNotFound(out, dataOut, fileRequested);
 			} catch (IOException ioe) {
 				System.err.println("Error with file not found exception : " + ioe.getMessage());
 			}
-
-		} catch (IOException ioe) {
+    } catch (IOException ioe) {
 			System.err.println("Server error : " + ioe);
-		} finally {
-			try {
-				in.close();
-				out.close();
-				dataOut.close();
-				connect.close(); // we close socket connection
-			} catch (Exception e) {
-				System.err.println("Error closing stream : " + e.getMessage());
-			}
-
-			if (ServerConstants.verbose) {
-				System.out.println("Connection closed.\n");
-			}
 		}
+  }
 
-
-	}
-
-	private byte[] readFileData(File file, int fileLength) throws IOException {
+  private static byte[] readFileData(File file, int fileLength) throws IOException {
     System.out.println("inside readFileData() " + file.getName() + " " + file.getAbsolutePath());
 		FileInputStream fileIn = null;
 		byte[] fileData = new byte[fileLength];
@@ -180,7 +116,7 @@ public class JavaHTTPServer implements Runnable{
 	}
 
 	// return supported MIME Types
-	private String getContentType(String fileRequested) {
+	private static String getContentType(String fileRequested) {
     System.out.println("inside getContentType()");
 		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
 			return "text/html";
@@ -188,7 +124,7 @@ public class JavaHTTPServer implements Runnable{
 			return "text/plain";
 	}
 
-	private void fileNotFound(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException {
+	private static void fileNotFound(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException {
     System.out.println("inside fileNotFound()");
 		File file = new File(ServerConstants.WEB_ROOT, ServerConstants.FILE_NOT_FOUND);
 		int fileLength = (int) file.length();
@@ -206,9 +142,8 @@ public class JavaHTTPServer implements Runnable{
 		dataOut.write(fileData, 0, fileLength);
 		dataOut.flush();
 
-		if (ServerConstants.verbose) {
+		if (ServerConstants.LOGGING_VERBOSE) {
 			System.out.println("File " + fileRequested + " not found");
 		}
 	}
-
 }

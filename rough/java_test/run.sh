@@ -1,1 +1,1 @@
-java -cp classes com.surenderthakran.JavaHTTPServer
+java -cp classes com.surenderthakran.Server
