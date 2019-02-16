@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	DEFAULT_ACTIVATION_FUNCTION = "LINEAR"
+	defaultActivationFunction = "LINEAR"
 )
 
 type Model struct {
@@ -124,13 +124,13 @@ func New(configuration *ModelConfiguration) (*Model, error) {
 
 	model.hiddenLayerActivationFunctionName = activation.ValidFunction(configuration.HiddenLayerActivationFunctionName)
 	if model.hiddenLayerActivationFunctionName == "" {
-		model.hiddenLayerActivationFunctionName = DEFAULT_ACTIVATION_FUNCTION
+		model.hiddenLayerActivationFunctionName = defaultActivationFunction
 		fmt.Println("Estimated Ideal Activation Function for Hidden Layer Neurons: ", model.hiddenLayerActivationFunctionName)
 	}
 
 	model.outputLayerActivationFunctionName = activation.ValidFunction(configuration.OutputLayerActivationFunctionName)
 	if model.hiddenLayerActivationFunctionName == "" {
-		model.outputLayerActivationFunctionName = DEFAULT_ACTIVATION_FUNCTION
+		model.outputLayerActivationFunctionName = defaultActivationFunction
 		fmt.Println("Estimated Ideal Activation Function for Output Layer Neurons: ", model.outputLayerActivationFunctionName)
 	}
 
