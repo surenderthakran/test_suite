@@ -65,7 +65,27 @@ public class Server implements Runnable{
 			// get binary output stream to client (for requested data)
 			dataOut = new BufferedOutputStream(connect.getOutputStream());
 
-			StaticFileHandler.handle(in, out, dataOut);
+			// Mark the current position in the stream.
+			in.mark(100000000);
+
+			// Get first line of the request from the client.
+			String input = in.readLine();
+      System.out.println("Request: " + input);
+			// Parse the request with a string tokenizer.
+			StringTokenizer parse = new StringTokenizer(input);
+			// Get the HTTP method of the request.
+			String method = parse.nextToken().toUpperCase();
+			// Get request path
+			String requestPath = parse.nextToken().toLowerCase();
+
+			// Reset stream to the last marked position.
+			in.reset();
+
+			if (requestPath.startsWith("/api/")) {
+				// TODO(surenderthakran): Handle api calls.
+			} else {
+				StaticFileHandler.handle(in, out, dataOut);
+			}
 		} catch (IOException ioe) {
 			System.err.println("Server error : " + ioe);
 		} finally {

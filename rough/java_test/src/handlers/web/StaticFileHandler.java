@@ -20,7 +20,6 @@ public class StaticFileHandler {
     try {
       // get first line of the request from the client
 			String input = in.readLine();
-      System.out.println("input: " + input);
 			// we parse the request with a string tokenizer
 			StringTokenizer parse = new StringTokenizer(input);
 			String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
