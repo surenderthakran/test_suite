@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.surenderthakran.constants.ServerConstants;
+import com.surenderthakran.handlers.api.APIHandler;
 import com.surenderthakran.handlers.web.StaticFileHandler;
 
 // Each Client Connection will be managed in a dedicated Thread
@@ -66,7 +67,7 @@ public class Server implements Runnable{
 			dataOut = new BufferedOutputStream(connect.getOutputStream());
 
 			// Mark the current position in the stream.
-			in.mark(100000000);
+			in.mark(1000);
 
 			// Get first line of the request from the client.
 			String input = in.readLine();
@@ -82,13 +83,14 @@ public class Server implements Runnable{
 			in.reset();
 
 			if (requestPath.startsWith("/api/")) {
-				// TODO(surenderthakran): Handle api calls.
+				APIHandler.handle(in, out, dataOut);
 			} else {
 				StaticFileHandler.handle(in, out, dataOut);
 			}
 		} catch (IOException ioe) {
 			System.err.println("Server error : " + ioe);
 		} finally {
+			System.out.println("in finally");
 			try {
 				in.close();
 				out.close();

@@ -1,1 +1,1 @@
-java -cp classes com.surenderthakran.Server
+java -cp "classes:jars/*" com.surenderthakran.Server
