@@ -24,14 +24,11 @@ public class StaticFileHandler {
 			// we parse the request with a string tokenizer
 			StringTokenizer parse = new StringTokenizer(input);
 			String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
-      System.out.println("method: " + method);
 			// we get file requested
 			fileRequested = parse.nextToken().toLowerCase();
-      System.out.println("fileRequested: " + fileRequested);
 
 			// we support only GET and HEAD methods, we check
 			if (!method.equals("GET")  &&  !method.equals("HEAD")) {
-        System.out.println("Method not supported");
 				if (ServerConstants.LOGGING_VERBOSE) {
 					System.out.println("501 Not Implemented : " + method + " method.");
 				}
@@ -56,19 +53,16 @@ public class StaticFileHandler {
 				dataOut.flush();
 
 			} else {
-        System.out.println("Method supported");
 				// GET or HEAD method
 				if (fileRequested.endsWith("/")) {
 					fileRequested += ServerConstants.DEFAULT_FILE;
 				}
-        System.out.println("fileRequested: " + fileRequested);
 
 				File file = new File(ServerConstants.WEB_ROOT, fileRequested);
 				int fileLength = (int) file.length();
 				String content = getContentType(fileRequested);
 
 				if (method.equals("GET")) { // GET method so we return content
-          System.out.println("GET method");
 					byte[] fileData = readFileData(file, fileLength);
 
 					// send HTTP Headers
@@ -100,7 +94,7 @@ public class StaticFileHandler {
   }
 
   private static byte[] readFileData(File file, int fileLength) throws IOException {
-    System.out.println("inside readFileData() " + file.getName() + " " + file.getAbsolutePath());
+    System.out.println("inside readFileData() " + file.getAbsolutePath());
 		FileInputStream fileIn = null;
 		byte[] fileData = new byte[fileLength];
 
@@ -117,7 +111,6 @@ public class StaticFileHandler {
 
 	// return supported MIME Types
 	private static String getContentType(String fileRequested) {
-    System.out.println("inside getContentType()");
 		if (fileRequested.endsWith(".htm")  ||  fileRequested.endsWith(".html"))
 			return "text/html";
 		else
@@ -125,7 +118,6 @@ public class StaticFileHandler {
 	}
 
 	private static void fileNotFound(PrintWriter out, OutputStream dataOut, String fileRequested) throws IOException {
-    System.out.println("inside fileNotFound()");
 		File file = new File(ServerConstants.WEB_ROOT, ServerConstants.FILE_NOT_FOUND);
 		int fileLength = (int) file.length();
 		String content = "text/html";

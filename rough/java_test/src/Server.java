@@ -52,7 +52,6 @@ public class Server implements Runnable{
 
 	@Override
 	public void run() {
-    System.out.println("inside run()");
 		// we manage our particular client connection
 		BufferedReader in = null;
 		PrintWriter out = null;
