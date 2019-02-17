@@ -18,7 +18,7 @@ public class APIHandler {
 
       Stock reliance = new Stock();
       reliance.stockId = "123";
-      reliance.symbol = "RELIANCE";
+      reliance.setSymbol("RELIANCE");
       reliance.title = "Reliance Industries Limited";
 
       String responseBody = gson.toJson(reliance);

@@ -1,8 +1,12 @@
 package com.surenderthakran.types;
 
-public class Stock {
+public final class Stock {
   public String stockId;
-  public String symbol;
+  private String symbol;
   public String isin;
   public String title;
+
+  public void setSymbol(String symbol) {
+    this.symbol = symbol;
+  }
 }
