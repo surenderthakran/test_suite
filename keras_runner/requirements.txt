@@ -73,7 +73,7 @@ unity-lens-photos==1.0
 urllib3==1.21.1
 vboxapi==1.0
 virtualenv==15.0.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 wrapt==1.8.0
 yapf==0.17.0
 youtube-dl==2018.4.3
