@@ -62,7 +62,7 @@ python-language-server==0.5.0
 python2-pythondialog==3.3.0
 pytz==2014.10
 PyYAML==5.1
-requests==2.18.1
+requests==2.20.0
 scikit-learn==0.19.1
 scipy==1.0.1
 six==1.11.0
