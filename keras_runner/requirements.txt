@@ -31,7 +31,7 @@ json-rpc==1.10.3
 Keras==2.1.6
 lazy-object-proxy==1.2.1
 logilab-common==1.1.0
-lxml==3.5.0
+lxml==4.6.5
 Markdown==2.6.11
 meld==3.14.2
 mock==2.0.0
